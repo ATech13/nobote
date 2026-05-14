@@ -1,103 +1,83 @@
-import Image from "next/image";
+"use client"
+
+import Wrapper from "./components/Wrapper"
+import background from "./assets/golden-bg.jpg";
+// import { useState } from "react";
+// import SocialLinks from "./components/SocialLinks";
+// import styles from "./style"
+import Link from "next/link"
+import SocialLinks from "./components/SocialLinks";
+import { badges } from "./components/Objects"
+import { homeLinks } from "./components/Objects";
+import { useEffect, useState } from "react";
+import { FaArrowCircleRight, FaArrowDown } from "react-icons/fa";
+import { FaArrowRightArrowLeft } from "react-icons/fa6";
+import { HiChevronRight } from "react-icons/hi";
+// import {fetchEvents} from "@/fetchData"
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+
+
+
+  return (
+    <Wrapper>
+      <>
+        {/* <div>
+        {
+          events.map((e) =>(
+            <div>
+              {e.name}
+            </div>
+          ))
+        }
+      </div> */}
+        <div className="min-h-screen w-full flex flex-col gap-3 justify-evenly items-center relative px-6 pb-10" style={{
+          backgroundImage: `url(${background.src})`,
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          backgroundAttachment: "fixed",
+        }}>
+          <div className="md:mt-20 mt-30">
+            <h1 className="anim delay1 uppercase font-bold text-7xl md:text-9xl title_gradient">noboté</h1>
+            <p className="anim delay2 text-md md:text-2xl text-[#3a3a3a]">Venez présenter votre <span className="uppercase title_gradient font-bold">noboté</span> ici, et découvez les non-beaux et non-belles</p>
+          </div>
+          <div className="flex flex-col gap-10  text-start">
+            <div className={`flex flex-col max-h-250 md:flex-row gap-4 `}>
+              {homeLinks.map((homeLink, index) => (
+                <Link key={index} href={homeLink.href} className=" relative">
+                  <div className="custom-card delay3 p-4 backdrop-blur-[5px] backdrop-brightness-110 backdrop-contrast-110 rounded-2xl">
+                    <div className="flex gap-2 items-center text-sm">
+                      <div className="h-6 w-0.5 bg-secondary"></div>
+                      <div className="font-semibold text-[#3a3a3a]">{homeLink.description}</div>
+                    </div>
+                    <div className="text-xs text-[#5b5959]">{homeLink.desc}</div>
+                  </div>
+                  <div className="absolute anim delay4  flex justify-center items-center right-0 bottom-0  w-8 h-8 bg-white/50 backdrop-blur-[5px] rounded-full  ">
+                    <HiChevronRight className="text-secondary" />
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+
+        <SocialLinks />
+
+        {/* <div className="w-full grid md:grid-cols-2 gap-2 px-6 py-6 duration-500 bg-base-200">
+          {badges.map((badge, index) => (
+            <div key={index} className="p-3 bg-base-100 flex items-center border border-base-300 gap-2 rounded-lg duration-500 translate_animate">
+              <div className="rounded-lg bg-secondary-opacity text-secondary p-3">
+                {badge.icon}
+              </div>
+              <p className="text-xs md:text-sm">
+                {badge.description}
+              </p>
+            </div>
+          ))}
+        </div> */}
+      </>
+    </Wrapper>
   );
 }

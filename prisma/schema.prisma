@@ -1,0 +1,149 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+// generator client {
+//   provider = "prisma-client"
+//   output   = "../lib/generated/prisma"
+// }
+
+// datasource db {
+//   provider = "mongodb"
+//   url      = env("DATABASE_URL")
+// }
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  CANDIDATE
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+}
+
+enum EventStatus {
+  UPCOMING
+  ACTIVE
+  FINISHED
+}
+
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  fullName String
+
+  username String @unique
+  email    String @unique
+
+  password String
+
+  bio    String?
+  avatar String?
+
+  country String?
+  city    String?
+
+  age Int?
+
+  role UserRole @default(CANDIDATE)
+
+  isVerified Boolean @default(false)
+  isBlocked  Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  medias         Media[]
+  participations Participation[]
+  votesReceived  Vote[] @relation("VotesReceived")
+}
+
+model Event {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+
+  coverImage String?
+
+  startDate DateTime
+  endDate   DateTime
+
+  status EventStatus @default(UPCOMING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  participations Participation[]
+  votes          Vote[]
+
+  @@index([status])
+  @@index([startDate, endDate])
+}
+
+model Participation {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  userId  String @db.ObjectId
+  eventId String @db.ObjectId
+
+  createdAt DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id])
+  event Event @relation(fields: [eventId], references: [id])
+
+  @@unique([userId, eventId])
+  @@index([eventId])
+  @@index([userId])
+}
+
+model Media {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  url  String
+  type MediaType
+
+  caption String?
+
+  likesCount Int @default(0)
+
+  userId String @db.ObjectId
+
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([type])
+}
+
+model Vote {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  eventId     String @db.ObjectId
+  candidateId String @db.ObjectId
+
+  voterIp  String?
+  deviceId String?
+
+  createdAt DateTime @default(now())
+
+  event Event @relation(fields: [eventId], references: [id])
+
+  candidate User @relation("VotesReceived", fields: [candidateId], references: [id])
+
+  @@unique([eventId, candidateId, voterIp])
+  @@index([eventId])
+  @@index([candidateId])
+}

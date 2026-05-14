@@ -1,26 +1,499 @@
 @import "tailwindcss";
 
+@plugin "daisyui" {
+  themes: all;
+}
+
+[data-theme="light"] {
+  --primary: #2196f3;
+  --secondary: #ff9902;
+  --secondary-opacity: #fcdeb1;
+  --accent: #c02c2c85;
+  --error: #f44336;
+  --success: #2baf2b;
+  --warning: #a132b4;
+
+  --text-hover: #11111;
+
+  --base-100: #fff;
+  --base-200: #f3F4F6;
+  --base-300: #e5e7eb;
+}
+
+/* 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --primary: #4acfee;
+  --accent: #53f8c9;
+  --success: #02d79a;
+  --text-primary: #6070fd;
+  --secondary: #2a46ff;
+  --warning: #0099ff;
+} */
+.btn,
+.badge {
+  border-radius: 10px;
+  border: none;
+  color: #fff;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+.text-primary {
+  color: var(--primary)
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+.text-secondary {
+  color: var(--secondary)
+}
+
+.text-accent {
+  color: var(--accent);
+}
+
+.text-warning {
+  color: var(--warning)
+}
+
+.text-success {
+  color: var(--success);
+}
+
+.text-error {
+  color: var(--error);
+}
+
+.text-base-100 {
+  color: var(--base-100);
+}
+
+
+.bg-primary,
+.badge-primary,
+.btn-primary {
+  background-color: var(--primary)
+}
+
+.bg-secondary,
+.badge-secondary,
+.btn-secondary {
+  background-color: var(--secondary)
+}
+
+.bg-accent,
+.badge-accent,
+.btn-accent {
+  background-color: var(--accent);
+}
+
+.bg-warning,
+.badge-warning,
+.btn-warning {
+  background-color: var(--warning)
+}
+
+.bg-success,
+.badge-success,
+.btn-success {
+  background-color: var(--success);
+}
+
+.bg-error,
+.badge-error,
+.btn-error {
+  background-color: var(--error);
+}
+
+.btn-primary,
+.badge-primary {
+  color: #eaeaea;
+  box-shadow: none;
+}
+
+.btn-secondary,
+.badge-secondary {
+  color: #eaeaea;
+  box-shadow: none;
+}
+
+.btn-error,
+.badge-error {
+  color: #eaeaea;
+  box-shadow: none;
+}
+
+.btn-success,
+.badge-success {
+  color: #eaeaea;
+  box-shadow: none;
+}
+
+.btn-warning,
+.badge-warning {
+  color: #eaeaea;
+  box-shadow: none;
+}
+
+.btn-accent,
+.badge-accent {
+  color: #eaeaea;
+  box-shadow: none;
+}
+
+
+.border-primary {
+  border-color: var(--primary);
+}
+
+.border-secondary {
+  border-color: var(--secondary);
+}
+
+.border-accent {
+  border-color: var(--accent);
+}
+
+.border-warning {
+  border-color: var(--warning);
+}
+
+.border-success {
+  border-color: var(--success);
+}
+
+.border-error {
+  border-color: var(--error);
+}
+
+.bg-success-opacity {
+  background: var(--success-opacity);
+}
+
+.bg-warning-opacity {
+  background: var(--warning-opacity);
+}
+
+.bg-secondary-opacity {
+  background-color: var(--secondary-opacity);
+}
+
+
+.title_gradient {
+  text-align: center;
+  background: linear-gradient(to right, var(--secondary), var(--accent), var(--error));
+  background-size: 200%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: animate-gradient 2.5s linear infinite;
+}
+
+
+@keyframes animate-gradient {
+  to {
+    background-position: 200%;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* 
+      3D Carousel Master CSS Dragons
+*/
+
+.banner {
+  width: 100%;
+  /* height: 100vh; */
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.banner .slider {
+  position: absolute;
+  width: 200px;
+  height: 250px;
+  top: 10%;
+  left: calc(50% - 100px);
+  transform-style: preserve-3d;
+  transform: perspective(1000px);
+  animation: autoRun 20s linear infinite;
+  z-index: 2;
+}
+
+@keyframes autoRun {
+  from {
+    transform: perspective(1000px)
+      /*rotateX(-16deg)*/
+      rotateY(0deg)
+  }
+
+  to {
+    transform: perspective(1000px)
+      /*rotateX(-16deg)*/
+      rotateY(360deg)
+  }
+}
+
+.banner .slider .item {
+  position: absolute;
+  inset: 0 0 0 0;
+  transform:
+    rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg)) translateZ(550px);
+
+}
+
+.banner .slider .item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* 
+      3D Carousel Master CSS Dragons end
+*/
+
+/* 
+.bg-black-gradient {
+  background: linear-gradient(to bottom right, #c02c2c85 20%, var(--secondary));
+  border: 1px solid var(--secondary);
+  box-shadow: 0px 0px 4px var(--secondary);
+  /* border-image: linear-gradient(to bottom right, var(--secondary), #000);
+  border-image-slice: 1;
+} */
+
+@property --opacity {
+  syntax: "<number>";
+  inherits: false;
+  /* initial-value: 0; */
+}
+
+.background_gradient {
+  background: linear-gradient(to bottom right, transparent 10%, var(--error));
+}
+
+.border_animate {
+  border-radius: 10px;
+  position: relative;
+}
+
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.border_animate::after,
+.border_animate::before {
+  content: "";
+  position: absolute;
+  background-image: conic-gradient(from var(--angle), transparent 30%, var(--secondary));
+  height: 100%;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  z-index: -1;
+  padding: 10px;
+  border-radius: 10px;
+  animation: 3s border_animate linear infinite;
+}
+
+.border_animate::before {
+  filter: blur(1rem);
+  /* opacity: 0.5; */
+}
+
+@keyframes border_animate {
+  from {
+    --angle: 0deg;
+  }
+
+  to {
+    --angle: 360deg;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.translate_animate {
+  animation: translate_animate;
+  animation-timeline: view();
+  animation-range-start: cover 0%;
+  animation-range-end: cover 30%;
+}
+
+@keyframes translate_animate {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0%);
+  }
+}
+
+/*
+.fancy {
+  position: relative;
+  --offset: 3px;
+  overflow: hidden;
+}
+.fancy::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(transparent 270deg, white, transparent);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  aspect-ratio: 1;
+  width: 100%;
+}
+
+
+.fancy::after {
+  content: "";
+  position: absolute;
+  inset: var(--offset);
+  background: inherit;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  aspect-ratio: 1;
+  width: calc(100% - var(--offset) * 2);
+  height: calc(100% - var(--offset) * 2);
+}
+
+
+.fancy_input {
+  background: transparent;
+  color: #fff;
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  padding: 1.5rem;
+}
+
+
+*/
+
+.apparition_animate {
+  animation: apparition_animate 2s ease-in-out forwards infinite;
+}
+
+@keyframes apparition_animate {
+
+  0%,
+  100% {
+    transform: scale(0.5);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+}
+
+.scale_animate {
+  animation: scale_animate;
+  animation-timeline: view();
+  animation-range-start: cover 0%;
+  animation-range-end: cover 30%;
+}
+
+@keyframes scale_animate {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+.custom-card {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 40px), calc(100% - 40px) 100%, 0 100%);
+  /* clip-path: path("M0 0 H100% V85% Q100% 100% 85% 100% H0 Z"); */
+}
+.anim,
+.custom-card {
+  transform: translateY(50px);
+  filter: blur(20px);
+  opacity: 0;
+  animation: showContent 0.5s 1s linear 1 forwards;
+}
+
+@keyframes showContent {
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0)
+  }
+}
+
+.delay1 {
+  animation-delay: 1.2s;
+}
+
+.delay2 {
+  animation-delay: 1.4s;
+}
+
+.delay3 {
+  animation-delay: 1.6s;
+}
+
+.delay4 {
+  animation-delay: 1.8 s;
+}
+
+@keyframes wiggle {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+
+.wiggle-animation {
+  animation: wiggle 1.5s ease-in-out infinite;
+}
+
+:root {
+  --toastify-color-light: #ECE3CA;
+  --toastify-text-color-light: #793205;
+}
+
+.linecamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.badge_animated {
+  animation: floatBadge 3s ease-in-out infinite;
+}
+
+@keyframes floatBadge {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
 }
