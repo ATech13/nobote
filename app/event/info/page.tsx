@@ -68,32 +68,35 @@ const EventInfoList = () => {
         ) : (
           <div className={`grid md:grid-cols-3 sm:grid-cols-2 items-center w-full gap-3 py-4`}>
             {events.map((event) => (
-              <div key={event.id} className={`${styles.flexCenter} flex-col gap-2 w-full rounded-lg bg-base-300 p-4 cursor-pointer hover:shadow-lg transition-all`}>
-                <div className="h-80 w-full overflow-hidden rounded-lg">
-                  {event.coverImage ? (
-                    <Image 
-                      src={event.coverImage}
-                      alt={event.title}
-                      width={300}
-                      height={300}
-                      className="h-full w-full object-cover hover:scale-110 transition-all duration-300 mix-blend-darken"
-                    />
-                  ) : (
-                    <div className="h-full w-full bg-base-200 flex items-center justify-center">
-                      <span>Pas d&apos;image</span>
+              <Link href={`/event/info/${event.id}`} key={event.id} className="w-full">
+                <div key={event.id} className={`${styles.flexCenter} flex-col gap-2 w-full rounded-lg bg-base-300 p-4 cursor-pointer hover:shadow-lg transition-all`}>
+                  <div className="h-80 w-full overflow-hidden rounded-lg">
+                    {event.coverImage ? (
+                      <Image
+                        src={event.coverImage}
+                        alt={event.title}
+                        width={300}
+                        height={300}
+                        className="h-full w-full object-cover hover:scale-110 transition-all duration-300 mix-blend-darken"
+                      />
+                    ) : (
+                      <div className="h-full w-full bg-base-200 flex items-center justify-center">
+                        <span>Pas d&apos;image</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className={`${styles.flexCenter} flex-col gap-2 w-full`}>
+                    <h1 className={`text-sm ${styles.paragraph} text-center font-bold`}> {event.title} </h1>
+                    <p className="text-xs text-gray-400 text-center line-clamp-2">{event.description}</p>
+                    <div className={`${styles.flexBetween} w-full gap-2`}>
+
+                      <div className="badge_animated btn btn-secondary btn-xs w-full">
+                        Participer à l&apos;événement <ArrowRight className="h-4 w-4 -rotate-45" />
+                      </div>
                     </div>
-                  )}
-                </div>
-                <div className={`${styles.flexCenter} flex-col gap-2 w-full`}>
-                  <h1 className={`text-sm ${styles.paragraph} text-center font-bold`}> {event.title} </h1>
-                  <p className="text-xs text-gray-400 text-center line-clamp-2">{event.description}</p>
-                  <div className={`${styles.flexBetween} w-full gap-2`}>
-                    <Link href={`/event/info/${event.id}`} className="btn btn-secondary btn-xs w-full">
-                      Participer à l&apos;événement <ArrowRight className="h-4 w-4 -rotate-45" />
-                    </Link>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}

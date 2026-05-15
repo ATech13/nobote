@@ -77,7 +77,7 @@ const SidebarContent = () => {
                 </div> */}
 
             </div>
-            <p className="text-center text-xs mt-4">Copyright © {new Date().getFullYear()} <span className="font-bold title_gradient">RARTech</span> <br /> Tous les droits sont reservés</p>
+            <p className="text-center text-xs mt-4">Copyright © {new Date().getFullYear()} <span className="font-bold title_gradient cursor-pointer"><Link href="https://rartech.ecocinq.com">RARTech</Link></span> <br /> Tous les droits sont reservés</p>
         </div>
     )
 }
