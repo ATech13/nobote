@@ -56,13 +56,13 @@ export const homeLinks = [
   {
     id: 1,
     description: "Activités",
-    href: "/event/list",
+    href: "/event/info",
     desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consequatur dolore sequi natus ipsum nostrum ets."
   },
   {
     id: 2,
     description: "Infos des Miss",
-    href: "/miss/info",
+    href: "/user/info",
     desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consequatur dolore sequi natus ipsum nostrum ets."
   },
   {
@@ -74,7 +74,7 @@ export const homeLinks = [
   {
     id: 4,
     description: "Miss des events",
-    href: "/miss/event",
+    href: "/user/info",
     desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consequatur dolore sequi natus ipsum nostrum ets."
   },
   {

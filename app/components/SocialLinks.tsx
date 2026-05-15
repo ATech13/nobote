@@ -1,5 +1,6 @@
+"use client"
 import Image from 'next/image'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import image1 from "../assets/lettersDesigns/a.jpg";
 import image2 from "../assets/lettersDesigns/b.jpg";
 import image3 from "../assets/lettersDesigns/c.jpg";
@@ -10,8 +11,33 @@ import image7 from "../assets/lettersDesigns/s.jpg";
 import image8 from "../assets/lettersDesigns/u.jpg";
 import image9 from "../assets/lettersDesigns/a.jpg";
 import image10 from "../assets/lettersDesigns/b.jpg";
+// import { User } from '@/type/types';
 
 const SocialLinks = () => {
+
+    // const [users, setUsers] = useState<User[]>([])
+    // const [loading, setLoading] = useState(true)
+    // const [error, setError] = useState<string | null>(null)
+
+    // useEffect(() => {
+    //     const fetchUsers = async () => {
+    //         try {
+    //             const response = await fetch('/api/users')
+    //             if (!response.ok) {
+    //                 throw new Error('Impossible de récupérer les utilisateurs')
+    //             }
+    //             const data = await response.json()
+    //             setUsers(data.users || [])
+    //         } catch (err) {
+    //             setError(err instanceof Error ? err.message : 'Erreur lors de la récupération des utilisateurs')
+    //         } finally {
+    //             setLoading(false)
+    //         }
+    //     }
+
+    //     fetchUsers()
+    // }, [])
+
     return (
         <div>
             <div className="banner min-h-100">

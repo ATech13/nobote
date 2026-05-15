@@ -8,15 +8,8 @@ import logo from "@/app/assets/logo.jpg"
 import { LuLoader } from 'react-icons/lu'
 import { FaEye, FaUser } from 'react-icons/fa'
 import Breadcrumbs from '@/app/components/Breadcrumbs'
+import { User } from '@/type/types'
 
-interface User {
-    id: string
-    fullName: string
-    username: string
-    email: string
-    avatar?: string
-    bio?: string
-}
 
 const UserList = () => {
     const [users, setUsers] = useState<User[]>([])
