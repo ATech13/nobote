@@ -58,7 +58,7 @@ const EventInfoList = () => {
     <Wrapper>
       <div className={`mt-25 px-6 ${styles.flexCenter} gap-4 flex-col`}>
         <Breadcrumbs items={[
-          { label: 'Home', href: '/' },
+          { label: '', href: '' },
           { label: 'Événements' },
         ]} />
         <h1 className={`${styles.heading2}`}> Événements </h1>
