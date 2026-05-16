@@ -18,7 +18,7 @@ export default function VoteButton({ candidateId, eventId, votedCandidateId, has
   const [voted, setVoted] = useState(false)
   const hasAlreadyVotedThis = votedCandidateId === candidateId
   const hasAlreadyVotedOther = Boolean(hasVoted && !hasAlreadyVotedThis)
-  const buttonDisabled = loading || Boolean(hasVoted) || voted
+  const buttonDisabled = true //loading || Boolean(hasVoted) || voted
 
   const handleVote = async () => {
     setLoading(true)
@@ -57,7 +57,7 @@ export default function VoteButton({ candidateId, eventId, votedCandidateId, has
   return (
     <button
       onClick={handleVote}
-      disabled={true}
+      disabled={buttonDisabled}
       className={`btn w-full btn-secondary btn-sm ${buttonDisabled ? "cursor-not-allowed opacity-50" : ""}`}
     >
       {hasAlreadyVotedThis || voted ? (
