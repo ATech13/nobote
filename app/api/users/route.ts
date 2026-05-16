@@ -9,7 +9,7 @@ import { main } from "@/services/prismaConnect"
 
 export const GET = async () => {
     try {
-        await main();
+        // await main();
         const users = await prisma.user.findMany()
         return NextResponse.json({ message: "Success", users }, { status: 200 })
     } catch (error) {
@@ -35,7 +35,7 @@ export const POST = async (req: Request) => {
             return NextResponse.json({ message: "Missing required fields" }, { status: 400 })
         }
 
-        await main()
+        // await main()
 
         let avatarImage: string | null = null;
 
@@ -78,6 +78,6 @@ export const POST = async (req: Request) => {
         return NextResponse.json({ message: "Error in user route" }, { status: 500 })
     }
     finally {
-        await prisma.$disconnect()
+        //await prisma.$disconnect()
     }
 }

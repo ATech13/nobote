@@ -12,7 +12,7 @@ export const GET = async (req: Request, { params }: { params: { id: string } }) 
         if (!id) {
             return NextResponse.json({ message: "Invalid" }, { status: 400 })
         }
-        await main()
+        // await main()
 
         const event = await prisma.event.findUnique({
             where: { id }
@@ -24,9 +24,10 @@ export const GET = async (req: Request, { params }: { params: { id: string } }) 
         return NextResponse.json({ message: "Success", event }, { status: 200 })
     } catch (err) {
         return NextResponse.json({ message: "Error in event route" }, { status: 500 })
-    } finally {
-        await prisma.$disconnect()
-    }
+    } 
+                // finally {
+                //     await prisma.$disconnect()
+                // }
 }
 
 export const PUT = async (req: Request, { params }: { params: { id: string } }) => {
@@ -96,7 +97,7 @@ export const PUT = async (req: Request, { params }: { params: { id: string } }) 
             }
         }
 
-        await main()
+        // await main()
 
         const event = await prisma.event.update({
             where: { id },
@@ -107,8 +108,9 @@ export const PUT = async (req: Request, { params }: { params: { id: string } }) 
 
     } catch (err) {
         return NextResponse.json({ message: "Error in event route" }, { status: 500 })
-    } finally {
-        await prisma.$disconnect()
+    } 
+    finally {
+        // await prisma.$disconnect()
     }
 }
 
@@ -177,7 +179,7 @@ export const POST = async (req: Request, { params }: { params: { id: string } })
             }
         }
 
-        await main()
+        // await main()
 
         const event = await prisma.event.update({
             where: { id },
@@ -189,7 +191,7 @@ export const POST = async (req: Request, { params }: { params: { id: string } })
     } catch (err) {
         return NextResponse.json({ message: "Error in event route" }, { status: 500 })
     } finally {
-        await prisma.$disconnect()
+        // await prisma.$disconnect()
     }
 }
 
@@ -200,7 +202,7 @@ export const DELETE = async (req: Request, { params }: { params: { id: string } 
             return NextResponse.json({ message: "Invalid id" }, { status: 400 })
         }
 
-        await main()
+        // await main()
 
         const event = await prisma.event.findUnique({
             where: { id }
@@ -229,6 +231,6 @@ export const DELETE = async (req: Request, { params }: { params: { id: string } 
     } catch (err) {
         return NextResponse.json({ message: "Error in event route" }, { status: 500 })
     } finally {
-        await prisma.$disconnect()
+        // await prisma.$disconnect()
     }
 }

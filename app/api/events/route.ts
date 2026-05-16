@@ -8,14 +8,15 @@ import { main } from "@/services/prismaConnect"
 
 export const GET = async () => {
     try {
-        await main();
+        // await main();
         const events = await prisma.event.findMany();
         return NextResponse.json({ message: "Success", events }, { status: 200 })
     } catch (error) {
         return NextResponse.json({ message: "Error in event route" }, { status: 500 })
-    } finally {
-        await prisma.$disconnect()
-    }
+    } 
+    // finally {
+    //     await prisma.$disconnect()
+    // }
 }
 
 export const POST = async (req: Request) => {
@@ -40,7 +41,7 @@ export const POST = async (req: Request) => {
             return NextResponse.json({ message: "Invalid date format" }, { status: 400 })
         }
 
-        await main()
+        // await main()
 
         let coverImage: string | null = null;
 
@@ -81,7 +82,7 @@ export const POST = async (req: Request) => {
     } catch (err) {
         return NextResponse.json({ message: "Error in event route" }, { status: 500 })
     }
-    finally {
-        await prisma.$disconnect()
-    }
+    // finally {
+    //     await prisma.$disconnect()
+    //}
 }

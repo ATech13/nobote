@@ -12,7 +12,7 @@ export const GET = async (req: Request, { params }: { params: { id: string } }) 
         if (!id) {
             return NextResponse.json({ message: "Invalid" }, { status: 400 })
         }
-        await main()
+        // await main()
 
         const user = await prisma.user.findUnique({
             where: { id }
@@ -25,7 +25,7 @@ export const GET = async (req: Request, { params }: { params: { id: string } }) 
     } catch (err) {
         return NextResponse.json({ message: "Error in user route" }, { status: 500 })
     } finally {
-        await prisma.$disconnect()
+        // await prisma.$disconnect()
     }
 }
 
@@ -39,7 +39,7 @@ export const PUT = async (req: Request, { params }: { params: { id: string } }) 
             return NextResponse.json({ message: "Invalid id" }, { status: 400 })
         }
 
-        await main()
+        // await main()
 
         const existingUser = await prisma.user.findUnique({
             where: { id }
@@ -97,7 +97,7 @@ export const PUT = async (req: Request, { params }: { params: { id: string } }) 
             }
         }
 
-        await main()
+        // await main()
 
         const user = await prisma.user.update({
             where: { id },
@@ -109,7 +109,7 @@ export const PUT = async (req: Request, { params }: { params: { id: string } }) 
     } catch (err) {
         return NextResponse.json({ message: "Error in user route" }, { status: 500 })
     } finally {
-        await prisma.$disconnect()
+        // await prisma.$disconnect()
     }
 }
 
@@ -121,7 +121,7 @@ export const DELETE = async (req: Request, { params }: { params: { id: string } 
             return NextResponse.json({ message: "Invalid id" }, { status: 400 })
         }
 
-        await main()
+        // await main()
 
         const user = await prisma.user.findUnique({
             where: { id }
@@ -150,6 +150,6 @@ export const DELETE = async (req: Request, { params }: { params: { id: string } 
     } catch (err) {
         return NextResponse.json({ message: "Error in user route" }, { status: 500 })
     } finally {
-        await prisma.$disconnect()
+        // await prisma.$disconnect()
     }
 }

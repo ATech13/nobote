@@ -53,11 +53,11 @@ export default function VoteButton({ candidateId, eventId, votedCandidateId, has
       alert(data.message)
     }
   }
-
+  // buttonDisabled
   return (
     <button
       onClick={handleVote}
-      disabled={buttonDisabled}
+      disabled={true}
       className={`btn w-full btn-secondary btn-sm ${buttonDisabled ? "cursor-not-allowed opacity-50" : ""}`}
     >
       {hasAlreadyVotedThis || voted ? (
