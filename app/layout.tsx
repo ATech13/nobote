@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import SessionWrapper from "@/lib/SessionWrapper"
-import { EdgeStoreProvider } from "@/lib/edgestore";
 
 
 export const metadata: Metadata = {
@@ -19,7 +18,7 @@ export default function RootLayout({
       <html lang="fr" data-theme="light">
         <body
         >
-          <EdgeStoreProvider>{children}</EdgeStoreProvider>
+          {children}
         </body>
       </html>
     </SessionWrapper>

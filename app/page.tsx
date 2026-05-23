@@ -13,14 +13,12 @@ import { useEffect, useState } from "react";
 import { FaArrowCircleRight, FaArrowDown } from "react-icons/fa";
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
 import { HiChevronRight } from "react-icons/hi";
-import { useEdgeStore } from "@/lib/edgestore";
 import { EventUser } from "@/type/types";
 // import {fetchEvents} from "@/fetchData"
 
 export default function Home() {
 
 const [file, setFile] = useState<File>()
-const { edgestore } = useEdgeStore()
 const [urls, setUrls] = useState<{
   url: string;
   thumbnailUrl: string | null
