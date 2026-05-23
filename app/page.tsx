@@ -83,7 +83,7 @@ const [urls, setUrls] = useState<{
             </div>
           ))}
         </div> */}
-        <div className="flex flex-col items-center m-6 gap-2">
+        {/* <div className="flex flex-col items-center m-6 gap-2">
           <input
           type="file"
           onChange={(e) => setFile(e.target.files?.[0])}
@@ -101,7 +101,7 @@ const [urls, setUrls] = useState<{
             Upload
           </button>
           {urls?.url && <Link href={urls.url}></Link>}
-        </div>
+        </div> */}
       </>
     </Wrapper>
   );

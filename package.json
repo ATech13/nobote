@@ -9,8 +9,6 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@edgestore/react": "^0.7.0",
-    "@edgestore/server": "^0.7.0",
     "@prisma/client": "6.19",
     "bcrypt": "^6.0.0",
     "lucide-react": "^0.575.0",
