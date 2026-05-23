@@ -63,8 +63,8 @@ const ResultsPage = () => {
 
   return (
     <Wrapper>
-      <div className="mt-24 px-6 pb-10">
-        <div className="mx-auto max-w-7xl rounded-4xl border border-base-200 bg-linear-to-br from-base-100/90 via-base-200/80 to-white/80 p-6 shadow-2xl shadow-black/10">
+      <div className="mt-24 px-2 md:px-6 pb-10">
+        <div className="mx-auto max-w-7xl rounded-4xl border border-base-200 bg-linear-to-br from-base-100/90 via-base-200/80 to-white/80 p-2 md:p-6 shadow-2xl shadow-black/10">
           {/* <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
               <span className="inline-flex rounded-full bg-secondary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.35em] text-secondary">
@@ -103,7 +103,7 @@ const ResultsPage = () => {
               <EmptyState IconComponent={'ClipboardX'} message={'Pas encore des résultats'} />
             </div>
           ) : (
-            <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            <div className="mt-12 grid gap-4 md:gap-6 md:grid-cols-2 xl:grid-cols-3">
               {/* {results.map((result, index) => (
                 // <ResultCard
                 //   key={result.id}
@@ -118,8 +118,8 @@ const ResultsPage = () => {
                 </div>
               ))} */}
               {events?.map((e) => (
-                <div key={e.id} className="flex justify-between items-center group w-full rounded-4xl border border-base-200 bg-white/70 backdrop-blur-xl shadow-2xl shadow-black/5 p-2 md:p-4 transition-all duration-300 hover:-translate-y-1 hover:border-secondary/40">
-                  <div className="relative h-16 w-16 rounded-full overflow-hidden border-4 border-secondary/20 bg-base-200 shadow-inner flex items-center justify-center text-2xl font-bold text-secondary">
+                <div key={e.id} className="flex justify-between items-center group w-full rounded-4xl border border-base-200 bg-white/70 backdrop-blur-xl shadow-2xl shadow-black/5 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-secondary/40">
+                  <div className="relative h-12 w-12 rounded-full overflow-hidden border-4 border-secondary/20 bg-base-200 shadow-inner flex items-center justify-center text-2xl font-bold text-secondary">
                     {e.coverImage && (
                       <Image
                         src={e.coverImage}
@@ -134,7 +134,7 @@ const ResultsPage = () => {
                     <h3 className="md:text-md text-xs font-semibold text-base-content">{e.title}</h3>
                     {/* <p className="md:text-sm text-xs text-gray-500 w-60 line-clamp-1">{e.description}</p> */}
                   </div>
-                  <button onClick={() => router.push(`/results/${e.id}`)} className="btn btn-secondary">Résultat</button>
+                  <button onClick={() => router.push(`/results/${e.id}`)} className="btn btn-secondary btn-sm">Résultat</button>
                 </div>
               ))}
             </div>
