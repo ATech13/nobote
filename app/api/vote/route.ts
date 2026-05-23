@@ -1,10 +1,12 @@
 ﻿import { NextResponse } from "next/server"
 import { prisma } from "@/services/db"
-import { main } from "@/services/prismaConnect"
 
-export const GET = async () => {
+export const GET = async () => { //{ params }: { params: { id: string } }
     try {
         // await main()
+        // const { id } = await params
+        // const eventId = id
+        // const event = await prisma.event.findMany()
 
         const users = await prisma.user.findMany()
         const votes = await prisma.vote.findMany({ select: { candidateId: true } })
@@ -29,8 +31,8 @@ export const GET = async () => {
         console.error("VOTE_GET_ERROR:", error)
         const message = error instanceof Error ? error.message : "Error fetching vote results"
         return NextResponse.json({ message }, { status: 500 })
-    } 
-    
+    }
+
     // finally {
     //     await prisma.$disconnect()
     // }

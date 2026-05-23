@@ -3,7 +3,6 @@ import { NextResponse } from "next/server"
 import path from "path"
 import fs from "fs"
 import { randomUUID } from "crypto"
-import { main } from "@/services/prismaConnect"
 
 
 
@@ -15,7 +14,7 @@ export const GET = async () => {
     } catch (error) {
         return NextResponse.json({ message: "Error in user route" }, { status: 500 })
     } finally {
-        await prisma.$disconnect()
+        // await prisma.$disconnect()
     }
 }
 
@@ -28,10 +27,11 @@ export const POST = async (req: Request) => {
         const email = formData.get("email") as string
         const password = formData.get("password") as string
         const bio = formData.get("bio") as string
+        const eventId = formData.get("eventId") as string
         const avatar = formData.get("avatarImage");
         const imageFile = avatar instanceof File ? avatar : null;
 
-        if (!fullName || !username || !email || !password || !bio) {
+        if (!fullName || !username || !email || !password || !bio || !eventId) { //
             return NextResponse.json({ message: "Missing required fields" }, { status: 400 })
         }
 
@@ -69,7 +69,12 @@ export const POST = async (req: Request) => {
                 password,
                 bio,
                 avatar: avatarImage,
-            }
+                event: {
+                    connect: {
+                        id: eventId
+                    }
+                }
+            },
         })
 
         return NextResponse.json({ message: "User created successfully", user }, { status: 201 })

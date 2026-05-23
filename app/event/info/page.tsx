@@ -58,8 +58,8 @@ const EventInfoList = () => {
     <Wrapper>
       <div className={`mt-25 px-6 ${styles.flexCenter} gap-4 flex-col`}>
         <Breadcrumbs items={[
-          { label: '', href: '' },
-          { label: 'Événements' },
+          { label: 'Événements', href: `` },
+          { label: 'Candidates', href: `/user/info` },
         ]} />
         <h1 className={`${styles.heading2}`}> Événements </h1>
 
@@ -90,7 +90,7 @@ const EventInfoList = () => {
                     <p className="text-xs text-gray-400 text-center line-clamp-2">{event.description}</p>
                     <div className={`${styles.flexBetween} w-full gap-2`}>
 
-                      <div className="badge_animated btn btn-secondary btn-xs w-full">
+                      <div className="badge_animated btn btn-sm btn-secondary  w-full">
                         Participer à l&apos;événement <ArrowRight className="h-4 w-4 -rotate-45" />
                       </div>
                     </div>

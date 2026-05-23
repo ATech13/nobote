@@ -6,21 +6,40 @@ import EmptyState from '../components/EmptyState'
 import Wrapper from '../components/Wrapper'
 import ResultCard from '../components/ResultCard'
 import Breadcrumbs from '../components/Breadcrumbs'
+import { EventUser, Result, User } from '@/type/types'
+import { useRouter } from 'next/navigation'
+import Image from "next/image"
+import Link from 'next/link'
 
-type Result = {
-  id: string
-  fullName: string
-  username: string
-  avatar?: string | null
-  votesCount: number
-}
+
 
 const ResultsPage = () => {
+  const router = useRouter()
+  const [events, setEvents] = useState<EventUser[]>([])
   const [results, setResults] = useState<Result[]>([])
+  const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
+
+    const fetchEvents = async () => {
+      try {
+        const response = await fetch("/api/events")
+        const data = await response.json()
+
+        if (!response.ok) {
+          throw new Error(data.message || "Erreur de chargement")
+        }
+        setEvents(data.events)
+        setUsers(data.events.users || [])
+      } catch (err) {
+        console.error(err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
     const fetchResults = async () => {
       try {
         const response = await fetch('/api/vote')
@@ -38,6 +57,7 @@ const ResultsPage = () => {
       }
     }
 
+    fetchEvents()
     fetchResults()
   }, [])
 
@@ -45,7 +65,7 @@ const ResultsPage = () => {
     <Wrapper>
       <div className="mt-24 px-6 pb-10">
         <div className="mx-auto max-w-7xl rounded-4xl border border-base-200 bg-linear-to-br from-base-100/90 via-base-200/80 to-white/80 p-6 shadow-2xl shadow-black/10">
-          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          {/* <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
               <span className="inline-flex rounded-full bg-secondary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.35em] text-secondary">
                 Résultats
@@ -59,7 +79,7 @@ const ResultsPage = () => {
               <p className="text-sm uppercase tracking-[0.25em] text-gray-500">Total</p>
               <p className="mt-1 text-3xl font-bold text-secondary">{results.length}</p>
             </div>
-          </div>
+          </div> */}
 
           <div className="mt-6">
             <Breadcrumbs
@@ -84,15 +104,38 @@ const ResultsPage = () => {
             </div>
           ) : (
             <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-              {results.map((result, index) => (
-                <ResultCard
-                  key={result.id}
-                  rank={index + 1}
-                  username={result.username}
-                  fullName={result.fullName}
-                  avatar={result.avatar}
-                  votesCount={result.votesCount}
-                />
+              {/* {results.map((result, index) => (
+                // <ResultCard
+                //   key={result.id}
+                //   rank={index + 1}
+                //   username={result.username}
+                //   fullName={result.fullName}
+                //   avatar={result.avatar}
+                //   votesCount={result.votesCount}
+                // />
+                <div key={result.id}>
+                  
+                </div>
+              ))} */}
+              {events?.map((e) => (
+                <div key={e.id} className="flex justify-between items-center group w-full rounded-4xl border border-base-200 bg-white/70 backdrop-blur-xl shadow-2xl shadow-black/5 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-secondary/40">
+                  <div className="relative h-16 w-16 rounded-full overflow-hidden border-4 border-secondary/20 bg-base-200 shadow-inner flex items-center justify-center text-2xl font-bold text-secondary">
+                    {e.coverImage && (
+                      <Image
+                        src={e.coverImage}
+                        alt={e.title}
+                        fill
+                        className="object-cover"
+                      />
+                    )}
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.3em] text-secondary/80">{e.status}</p>
+                    <h3 className="md:text-md text-sm font-semibold text-base-content">{e.title}</h3>
+                    <p className="md:text-sm text-xs text-gray-500 w-60 line-clamp-1">{e.description}</p>
+                  </div>
+                  <button onClick={() => router.push(`/results/${e.id}`)} className="btn btn-secondary">Résultat</button>
+                </div>
               ))}
             </div>
           )}

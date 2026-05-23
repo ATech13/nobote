@@ -18,7 +18,7 @@ export default function VoteButton({ candidateId, eventId, votedCandidateId, has
   const [voted, setVoted] = useState(false)
   const hasAlreadyVotedThis = votedCandidateId === candidateId
   const hasAlreadyVotedOther = Boolean(hasVoted && !hasAlreadyVotedThis)
-  const buttonDisabled = true //loading || Boolean(hasVoted) || voted
+  const buttonDisabled = loading || Boolean(hasVoted) || voted
 
   const handleVote = async () => {
     setLoading(true)

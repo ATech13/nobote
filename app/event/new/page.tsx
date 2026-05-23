@@ -28,7 +28,7 @@ const CreateNewEvent = () => {
         }
       }
 
-      router.replace('/event/list')
+      router.replace('/event/info')
     } catch (error) {
       console.error(error)
     }

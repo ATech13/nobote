@@ -8,33 +8,34 @@ import logo from "@/app/assets/logo.jpg"
 import { LuLoader } from 'react-icons/lu'
 import { FaEye, FaUser } from 'react-icons/fa'
 import Breadcrumbs from '@/app/components/Breadcrumbs'
-import { User } from '@/type/types'
+import { EventDetail, EventUser, User } from '@/type/types'
 
 
 const UserList = () => {
-    const [users, setUsers] = useState<User[]>([])
+    // const [users, setUsers] = useState<User[]>([])
+    const [events, setEvents] = useState<EventUser[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
-        const fetchUsers = async () => {
+        const fetchEvents = async () => {
             try {
-                const response = await fetch('/api/users')
+                const response = await fetch('/api/events')
                 if (!response.ok) {
-                    throw new Error('Impossible de récupérer les utilisateurs')
+                    throw new Error('Impossible de récupérer les événements')
                 }
                 const data = await response.json()
-                setUsers(data.users || [])
+                setEvents(data.events || [])
+                console.log(data.events)
             } catch (err) {
-                setError(err instanceof Error ? err.message : 'Erreur lors de la récupération des utilisateurs')
+                setError(err instanceof Error ? err.message : 'Erreur lors de la récupération des événements')
             } finally {
                 setLoading(false)
             }
         }
 
-        fetchUsers()
+        fetchEvents()
     }, [])
-
 
     if (loading) {
         return (
@@ -65,35 +66,46 @@ const UserList = () => {
                 ]} />
                 <h1 className={`${styles.heading2}`}> Candidates aux events </h1>
 
-                {users.length === 0 ? (
-                    <p className="text-center text-gray-500">Aucun utilisateur disponible</p>
-                ) : (
-                    <div className={`grid md:grid-cols-3 sm:grid-cols-2 items-center w-full gap-3 py-4`}>
-                        {users.map((user) => (
-                            <Link key={user.id} href={`/user/info/${user.id}`}>
-                                <div className={`${styles.flexCenter} flex-col gap-2 w-full rounded-lg bg-base-300 p-4 hover:shadow-lg transition-all`}>
-                                    <div className="h-80 w-full overflow-hidden rounded-lg">
-                                        <Image
-                                            src={user.avatar || logo}
-                                            alt={user.fullName}
-                                            width={300}
-                                            height={300}
-                                            className="h-full w-full object-cover hover:scale-110 transition-all duration-300"
-                                        />
-                                    </div>
-                                    <div className={`${styles.flexCenter} flex-col gap-2 w-full`}>
-                                        <h1 className={`text-sm ${styles.paragraph} text-center font-bold`}> {user.fullName} </h1>
-                                        <p className="text-xs text-gray-400 text-center">@{user.username}</p>
-                                        <p className="text-xs text-gray-400 text-center line-clamp-2">{user.bio}</p>
-                                        <div className="btn btn-secondary btn-xs w-full">
-                                            <FaEye /> Voir le profil
+                {events.map((e) => (
+                    <div key={e.id} className="w-full">
+                        {e.users.length === 0 ? (
+                            <p className="text-center text-gray-500">Aucun utilisateur disponible</p>
+                        ) : (
+                            <div className=" gap-4 w-full">
+                                <span className="uppercase font-semibold">{e.title}</span>
+                                <div className={`grid md:grid-cols-3 sm:grid-cols-2 items-center w-full gap-3 py-4`}>
+                                {e.users.map((user) => (
+                                    <Link key={user.id} href={`/user/info/${user.id}`}>
+                                        <div className={`${styles.flexCenter} flex-col gap-2  rounded-lg bg-base-300 p-4 hover:shadow-lg transition-all`}>
+                                            <div className="h-80 w-full overflow-hidden rounded-lg">
+                                                <Image
+                                                    src={user.avatar || logo}
+                                                    alt={user.fullName}
+                                                    width={300}
+                                                    height={300}
+                                                    className="h-full w-full object-cover hover:scale-110 transition-all duration-300"
+                                                />
+                                            </div>
+                                            <div className={`${styles.flexCenter} flex-col gap-2 w-full`}>
+                                                <h1 className={`text-sm ${styles.paragraph} text-center font-bold`}> {user.fullName} </h1>
+                                                <p className="text-xs text-gray-400 text-center">@{user.username}</p>
+                                                <p className="text-xs text-gray-400 text-center line-clamp-2">{user.bio}</p>
+                                                <div className="btn btn-secondary btn-sm w-full">
+                                                    <FaEye /> Voir le profil
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </Link>
-                        ))}
+                                    </Link>
+                                ))}
+
+                            </div>
+                            </div>
+                        )}
+
                     </div>
-                )}
+                ))}
+
+
             </div>
         </Wrapper>
     )

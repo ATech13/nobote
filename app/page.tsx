@@ -13,12 +13,18 @@ import { useEffect, useState } from "react";
 import { FaArrowCircleRight, FaArrowDown } from "react-icons/fa";
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
 import { HiChevronRight } from "react-icons/hi";
+import { useEdgeStore } from "@/lib/edgestore";
+import { EventUser } from "@/type/types";
 // import {fetchEvents} from "@/fetchData"
 
 export default function Home() {
 
-
-
+const [file, setFile] = useState<File>()
+const { edgestore } = useEdgeStore()
+const [urls, setUrls] = useState<{
+  url: string;
+  thumbnailUrl: string | null
+}>();
 
   return (
     <Wrapper>
@@ -77,6 +83,25 @@ export default function Home() {
             </div>
           ))}
         </div> */}
+        <div className="flex flex-col items-center m-6 gap-2">
+          <input
+          type="file"
+          onChange={(e) => setFile(e.target.files?.[0])}
+          />
+          <button className="btn" onClick={async () => {
+            if(file) {
+              const res = await edgestore.publicFiles.upload({file})
+
+              setUrls({
+                url: res.url,
+                thumbnailUrl: "res.thumbnailUrl",
+              })
+            }
+          }}>
+            Upload
+          </button>
+          {urls?.url && <Link href={urls.url}></Link>}
+        </div>
       </>
     </Wrapper>
   );

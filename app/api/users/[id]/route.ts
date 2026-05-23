@@ -2,9 +2,7 @@ import { NextResponse } from "next/server"
 import { prisma } from "@/services/db"
 import { writeFile, unlink, mkdir } from "fs/promises"
 import path from "path"
-import { main } from "@/services/prismaConnect"
 import { randomUUID } from "crypto"
-import { UserPropsInterface } from "@/type/types"
 
 export const GET = async (req: Request, { params }: { params: { id: string } }) => {
     try {

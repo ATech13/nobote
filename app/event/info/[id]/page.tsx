@@ -11,7 +11,9 @@ import Link from 'next/link'
 import { FaEye } from 'react-icons/fa'
 import Breadcrumbs from '@/app/components/Breadcrumbs'
 import VoteButton from '@/app/components/VoteButton'
-import { EventDetail, User } from '@/type/types'
+// import { EventDetail } from '@/type/types'
+import { User, Event } from '@prisma/client'
+import { EventUser } from '@/type/types'
 
 
 
@@ -19,7 +21,7 @@ import { EventDetail, User } from '@/type/types'
 
 const EventDetailPage = ({ params }: { params: { id: string } }) => {
     const router = useRouter()
-    const [event, setEvent] = useState<EventDetail | null>(null)
+    const [event, setEvent] = useState<EventUser | null>(null)
     const [users, setUsers] = useState<User[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
@@ -37,33 +39,17 @@ const EventDetailPage = ({ params }: { params: { id: string } }) => {
                 }
                 const data = await response.json()
                 setEvent(data.event)
+                setUsers(data.event.users || [])
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'Erreur lors de la récupération de l\'événement')
             } finally {
                 setLoading(false)
             }
         }
+
         fetchEvent()
     }, [params])
 
-    useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const response = await fetch('/api/users')
-                if (!response.ok) {
-                    throw new Error('Impossible de récupérer les utilisateurs')
-                }
-                const data = await response.json()
-                setUsers(data.users || [])
-            } catch (err) {
-                setError(err instanceof Error ? err.message : 'Erreur lors de la récupération des utilisateurs')
-            } finally {
-                setLoading(false)
-            }
-        }
-
-        fetchUsers()
-    }, [])
 
     useEffect(() => {
         const fetchVotedCandidateId = async () => {
@@ -121,7 +107,7 @@ const EventDetailPage = ({ params }: { params: { id: string } }) => {
                 </button>
                 <Breadcrumbs items={[
                     { label: 'Événements', href: '/event/info' },
-                    { label: "Journée ECO-CINQ" },
+                    { label: `${event.title}` },
                 ]} />
 
                 <div className={`w-full max-w-full md:max-w-5xl ${styles.flexCenter} flex-col gap-6 rounded-lg px-4 md:p-8`}>
@@ -152,17 +138,18 @@ const EventDetailPage = ({ params }: { params: { id: string } }) => {
                     <div className={`${styles.flexCenter} flex-col gap-4 w-full text-center`}>
                         <p className={`${styles.paragraph} linecamp text-center`}>{event.description}</p>
                     </div>
+
                     {hasVoted && (
                         <div className="alert alert-info w-full max-w-3xl text-center">
-                            Vous avez déjà voté pour <span className="font-semibold">{users.find((u) => u.id === votedCandidateId)?.fullName || 'une candidate'}</span>.
+                            Vous avez déjà voté pour <span className="font-semibold">{event.users.find((u) => u.id === votedCandidateId)?.fullName || 'une candidate'}</span>.
                         </div>
                     )}
-                    <div className={`${styles.heading2}`}>Canditates de l&apos;événement</div>
-                    {users.length === 0 ? (
+                    <div className={`${styles.heading2}`}>Canditats de l&apos;événement</div>
+                    {event.users.length === 0 ? (
                         <EmptyState IconComponent={'UserRoundX'} message={'Pas de candidats pour cet événement.'} />
                     ) : (
                         <div className={`grid md:grid-cols-3 sm:grid-cols-2 items-center w-full gap-3 py-4`}>
-                            {users.map((user) => (
+                            {event.users.map((user) => (
                                 <div key={user.id} className={`${styles.flexCenter} flex-col gap-2 w-full rounded-lg bg-base-300 p-4 hover:shadow-lg transition-all`}>
                                     <div className="h-80 w-full overflow-hidden rounded-lg">
                                         <Image
@@ -188,7 +175,7 @@ const EventDetailPage = ({ params }: { params: { id: string } }) => {
                                                     localStorage.setItem(`voted_event_${event.id}`, candidateId)
                                                 }}
                                             />
-                                            <Link href={`/user/info/${user.id}`} className="btn btn-secondary btn-xs w-full flex items-center justify-center gap-2">
+                                            <Link href={`/user/info/${user.id}`} className="btn btn-secondary btn-sm w-full flex items-center justify-center gap-2">
                                                 <FaEye /> Voir le profil
                                             </Link>
                                         </div>
@@ -197,6 +184,12 @@ const EventDetailPage = ({ params }: { params: { id: string } }) => {
                             ))}
                         </div>
                     )}
+                </div>
+
+                <div className="w-full md:w-fit flex justify-center mb-4">
+                    <Link href={`/results/${event.id}`} className="w-full btn btn-secondary btn-sm">
+                        Voir les résultats
+                    </Link>
                 </div>
             </div>
         </Wrapper>

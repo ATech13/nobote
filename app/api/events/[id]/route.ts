@@ -15,11 +15,14 @@ export const GET = async (req: Request, { params }: { params: { id: string } }) 
         // await main()
 
         const event = await prisma.event.findUnique({
-            where: { id }
+            where: { id : id },
+            include: {
+                users: true
+            }
         })
 
         if (!event) {
-            return NextResponse.json({ message: "Event not fount" }, { status: 404 })
+            return NextResponse.json({ message: "Event not found" }, { status: 404 })
         }
         return NextResponse.json({ message: "Success", event }, { status: 200 })
     } catch (err) {
@@ -40,7 +43,7 @@ export const PUT = async (req: Request, { params }: { params: { id: string } }) 
         }
 
         const existingEvent = await prisma.event.findUnique({
-            where: { id }
+            where: { id : id },
         })
 
         if (!existingEvent) {
@@ -124,7 +127,7 @@ export const POST = async (req: Request, { params }: { params: { id: string } })
         }
 
         const existingEvent = await prisma.event.findUnique({
-            where: { id }
+            where: { id : id },
         })
 
         if (!existingEvent) {
@@ -205,7 +208,7 @@ export const DELETE = async (req: Request, { params }: { params: { id: string } 
         // await main()
 
         const event = await prisma.event.findUnique({
-            where: { id }
+            where: { id : id },
         })
 
         if (!event) {

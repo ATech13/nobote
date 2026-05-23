@@ -1,3 +1,5 @@
+import { Event as EventType, User as UserType } from "@prisma/client"
+
 export interface EventPropsInterface {
     id: string;
     title: string;
@@ -55,6 +57,7 @@ export type EventDetail = {
     status: string
     createdAt: string
     updatedAt: string
+    users: User[]
 }
 
 export interface User {
@@ -64,4 +67,27 @@ export interface User {
     email: string
     avatar?: string
     bio?: string
+    eventId: string
+}
+
+export interface Result {
+  id: string
+  fullName: string
+  username: string
+  avatar?: string | null
+  votesCount: number
+}
+
+export const userSelect = {
+    id: true,
+    fullName: true,
+    username: true,
+    email: true,
+    bio: true,
+    avatar: true,
+    createdAt: true,
+}
+
+export interface EventUser extends EventType {
+    users: UserType[]
 }

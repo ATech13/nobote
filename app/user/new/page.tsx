@@ -14,6 +14,7 @@ const UserCreatePage = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [bio, setBio] = useState('')
+    const [eventId, setEventId] = useState('')
     const [avatarFile, setAvatarFile] = useState<File | null>(null)
     const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
@@ -45,6 +46,7 @@ const UserCreatePage = () => {
             formData.append('email', email)
             formData.append('password', password)
             formData.append('bio', bio)
+            formData.append('eventId', eventId)
             if (avatarFile) {
                 formData.append('avatarImage', avatarFile)
             }
@@ -65,6 +67,7 @@ const UserCreatePage = () => {
             setEmail('')
             setPassword('')
             setBio('')
+            setEventId('')
             setAvatarFile(null)
             setAvatarPreview(null)
             router.push('/user/info')
@@ -85,6 +88,13 @@ const UserCreatePage = () => {
 
                     <form onSubmit={handleSubmit} className="w-full grid gap-4">
                         <div className="grid lg:grid-cols-2 gap-4">
+                            <input
+                                value={eventId}
+                                onChange={(e) => setEventId(e.target.value)}
+                                className="input input-bordered w-full"
+                                placeholder="ID de l'événement"
+                                required
+                            />
                             <input
                                 value={fullName}
                                 onChange={(e) => setFullName(e.target.value)}
