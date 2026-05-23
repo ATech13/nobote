@@ -132,7 +132,7 @@ const ResultsPage = () => {
                   <div>
                     <p className="text-xs uppercase tracking-[0.3em] text-secondary/80">{e.status}</p>
                     <h3 className="md:text-md text-sm font-semibold text-base-content">{e.title}</h3>
-                    <p className="md:text-sm text-xs text-gray-500 w-60 line-clamp-1">{e.description}</p>
+                    {/* <p className="md:text-sm text-xs text-gray-500 w-60 line-clamp-1">{e.description}</p> */}
                   </div>
                   <button onClick={() => router.push(`/results/${e.id}`)} className="btn btn-secondary">Résultat</button>
                 </div>
