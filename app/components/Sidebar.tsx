@@ -95,7 +95,7 @@ const SideBar = () => {
                             <Link href={"/sign-in"} className="overflow-hidden rounded-full flex justify-center items-center skeleton bg-base-200 border border-base-content/40">
                                 <FaUserAlt className="h-4 w-4" />
                             </Link>
-                            <p className="text-center capitalize text-xs">Vous</p>
+                            <p className="text-center capitalize text-[10.5px]">Vous</p>
                         </div>
                     )}
                 </div>
