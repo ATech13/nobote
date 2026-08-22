@@ -11,9 +11,10 @@ import { BsDiagram3 } from 'react-icons/bs'
 import Title from '../components/Title'
 import { FaPhotoVideo, FaRegCalendarAlt } from 'react-icons/fa'
 import { useUser } from '@clerk/nextjs'
-import { Image as ImageIo } from '@imagekit/next'
+import { Image as IKImage } from '@imagekit/next'
 import Image from "next/image"
 import { AuthUser, EventUser, StatusType } from '@/type/types'
+import logo from "@/app/assets/logo.jpg"
 import ErrorComponent from '../components/Error'
 import Loader from '../components/Loader'
 import { TbUsersGroup } from 'react-icons/tb'
@@ -254,13 +255,37 @@ const page = () => {
               <Link href={`/event/info/${event.id}`} key={event.id} className="flex gap-2 border border-base-content/20 rounded-lg p-2 items-center">
                 <div className="overflow-hidden h-15 w-15 rounded-lg">
                   {event.coverImage ? (
-                    <ImageIo src={event.coverImage}
-                      urlEndpoint={process.env.NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT!}
-                      height={60}
-                      width={60}
-                      alt={`Couverture de l'évenement ${event.title}`} className="h-full w-full object-cover" />
+                    event.coverImage.startsWith("/event") ? (
+                      <IKImage
+                        urlEndpoint={process.env.NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT!}
+                        width={60}
+                        height={60}
+                        src={event.coverImage}
+                        alt={event.title}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : event.coverImage.startsWith("/upload") ? (
+                      <Image
+                        width={60}
+                        height={60}
+                        src={event.coverImage}
+                        alt={event.title}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <Image
+                        width={60}
+                        height={60}
+                        src={logo}
+                        alt={event.title}
+                        className="h-full w-full object-cover"
+                      />
+                    )
                   ) : (
-                    <FaPhotoVideo className='h-6 w-6' />
+                    <div className="w-full rounded-xl flex items-center justify-center flex-col gap-3 h-full bg-base-100 border border-base-300/30">
+                      <FaPhotoVideo className="h-20 w-20" />
+                      <p>Pas d&apos;image de couverture</p>
+                    </div>
                   )}
                 </div>
                 <div className="flex justify-between items-center gap-2 w-full">
