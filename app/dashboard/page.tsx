@@ -283,7 +283,7 @@ const page = () => {
                     )
                   ) : (
                     <div className="w-full rounded-xl flex items-center justify-center flex-col gap-3 h-full bg-base-100 border border-base-300/30">
-                      <FaPhotoVideo className="h-20 w-20" />
+                      <FaPhotoVideo className="h-5 w-5" />
                       <p>Pas d&apos;image de couverture</p>
                     </div>
                   )}
