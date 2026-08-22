@@ -3,6 +3,7 @@ import { NextResponse } from "next/server"
 import path from "path"
 import fs from "fs"
 import { randomUUID } from "crypto"
+import imagekit from "@/lib/imagekit"
 
 
 
@@ -28,8 +29,9 @@ export const POST = async (req: Request) => {
         const password = formData.get("password") as string
         const bio = formData.get("bio") as string
         const eventId = formData.get("eventId") as string
-        const avatar = formData.get("avatarImage");
-        const imageFile = avatar instanceof File ? avatar : null;
+        const avatar = formData.get("avatarImage") as string;
+        const avatarId = formData.get("avatarImageId") as string | null
+        // const imageFile = avatar instanceof File ? avatar : null;
 
         if (!fullName || !username || !email || !password || !bio || !eventId) { //
             return NextResponse.json({ message: "Missing required fields" }, { status: 400 })
@@ -37,29 +39,29 @@ export const POST = async (req: Request) => {
 
         // await main()
 
-        let avatarImage: string | null = null;
+        // let avatarImage: string | null = null;
 
-        if (imageFile && imageFile.size > 0) {
-            try {
+        // if (imageFile && imageFile.size > 0) {
+        //     try {
 
-                const buffer = Buffer.from(await imageFile.arrayBuffer())
+        //         const buffer = Buffer.from(await imageFile.arrayBuffer())
 
-                const fileName = `${randomUUID()}-${imageFile.name.replace(/[^a-zA-Z0-9.-]/g, "")}`
-                const uploadDir = path.join(process.cwd(), 'public', 'uploads')
+        //         const fileName = `${randomUUID()}-${imageFile.name.replace(/[^a-zA-Z0-9.-]/g, "")}`
+        //         const uploadDir = path.join(process.cwd(), 'public', 'uploads')
 
-                // Create uploads directory if it doesn't exist
-                await fs.promises.mkdir(uploadDir, { recursive: true })
+        //         // Create uploads directory if it doesn't exist
+        //         await fs.promises.mkdir(uploadDir, { recursive: true })
 
-                const imagePath = path.join(uploadDir, fileName)
-                await fs.promises.writeFile(imagePath, buffer)
-                avatarImage = `/uploads/${fileName}`
+        //         const imagePath = path.join(uploadDir, fileName)
+        //         await fs.promises.writeFile(imagePath, buffer)
+        //         avatarImage = `/uploads/${fileName}`
 
 
-            } catch (err) {
-                console.error("Image upload error:", err)
-                avatarImage = null
-            }
-        }
+        //     } catch (err) {
+        //         console.error("Image upload error:", err)
+        //         avatarImage = null
+        //     }
+        // }
 
         const user = await prisma.user.create({
             data: {
@@ -68,7 +70,8 @@ export const POST = async (req: Request) => {
                 email,
                 password,
                 bio,
-                avatar: avatarImage,
+                avatar,
+                avatarId,
                 event: {
                     connect: {
                         id: eventId

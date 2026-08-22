@@ -1,7 +1,6 @@
 "use client"
 
 import Breadcrumbs from '@/app/components/Breadcrumbs'
-import Wrapper from '@/app/components/Wrapper'
 import styles from '@/app/style'
 import { EventUser, Result } from '@/type/types'
 import { User } from '@prisma/client'
@@ -13,8 +12,10 @@ import Image from "next/image"
 import EmptyState from '@/app/components/EmptyState'
 import VoteButton from '@/app/components/VoteButton'
 import Link from 'next/link'
-import { FaEye } from 'react-icons/fa'
+import { FaEye, FaRegCalendarAlt } from 'react-icons/fa'
 import ResultCard from '@/app/components/ResultCard'
+import WrapperSide from '@/app/components/WrapperSide'
+import { IoBarChartOutline } from 'react-icons/io5'
 
 const page = ({ params }: { params: { id: string } }) => {
 
@@ -128,9 +129,9 @@ const page = ({ params }: { params: { id: string } }) => {
     // }
 
     return (
-        <Wrapper>
+        <WrapperSide>
             <div className="mt-24 px-6 pb-10">
-                <div className="mx-auto max-w-7xl rounded-4xl border border-base-200 bg-linear-to-br from-base-100/90 via-base-200/80 to-white/80 p-6 shadow-2xl shadow-black/10">
+                <div className="mx-auto max-w-7xl rounded-4xl border border-base-200 bg-linear-to-br from-base-300/90 via-base-300/60 to-base-100/20  shadow-[0px_0px_15px_var(--color-base-content)]  p-6 shadow-base-content/30">
                     <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                         <div>
                             <span className="inline-flex rounded-full bg-secondary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.35em] text-secondary">
@@ -150,8 +151,8 @@ const page = ({ params }: { params: { id: string } }) => {
                     <div className="mt-6">
                         <Breadcrumbs
                             items={[
-                                { label: 'Evénement', href: '/event/info' },
-                                { label: 'Résultats', href: '/results' },
+                                { label: 'Evénement', href: '/event/info', icon: <FaRegCalendarAlt className="md:w-6 md:h-6 h-4 w-4" />, },
+                                { label: 'Résultats', href: '/results', icon: <IoBarChartOutline className="md:w-6 md:h-6 h-4 w-4" />, },
                                 {label: `${event?.title}`, href: `/event/info/${event?.id}`}
                             ]}
                         />
@@ -170,7 +171,7 @@ const page = ({ params }: { params: { id: string } }) => {
                             <EmptyState IconComponent={'ClipboardX'} message={'Pas encore des résultats'} />
                         </div>
                     ) : (
-                        <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                        <div className="mt-12 grid gap-6 grid-cols-[repeat(auto-fit,minmax(300px,1fr))] place-items-center">
                             {results.map((result, index) => (
                                 <ResultCard
                                     key={result.id}
@@ -185,7 +186,7 @@ const page = ({ params }: { params: { id: string } }) => {
                     )}
                 </div>
             </div>
-        </Wrapper>
+        </WrapperSide>
     )
 }
 

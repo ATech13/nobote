@@ -1,7 +1,10 @@
 "use client"
 
+import { Image as IKImage } from "@imagekit/next"
 import Image from "next/image"
+import logo from "@/app/assets/logo.jpg"
 import React from "react"
+import { FaPhotoVideo } from "react-icons/fa"
 
 type ResultCardProps = {
   rank: number
@@ -36,19 +39,42 @@ const ResultCard: React.FC<ResultCardProps> = ({ rank, username, fullName, avata
   // const widthClass = progressSteps[progressIndex]
 
   return (
-    <div className="group w-full rounded-4xl border border-base-200 bg-white/70 backdrop-blur-xl shadow-2xl shadow-black/5 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-secondary/40">
+    <div className="group rounded-4xl border border-base-content/10 bg-base-100 backdrop-blur-xl shadow-2xl shadow-black/5 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-secondary/40 hover:shadow-secondary/30 hover:shadow-lg max-w-125">
       <div className="flex items-center justify-between gap-4 mb-6">
         <div className="flex justify-between items-center gap-4">
           <div className="relative h-16 w-16 rounded-full overflow-hidden border-4 border-secondary/20 bg-base-200 shadow-inner flex items-center justify-center text-2xl font-bold text-secondary">
             {avatar ? (
-              <Image
-                src={avatar}
-                alt={fullName}
-                fill
-                className="object-cover"
-              />
+              avatar.startsWith("/event") ? (
+                <IKImage
+                  urlEndpoint={process.env.NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT!}
+                  width={300}
+                  height={300}
+                  src={avatar}
+                  alt={fullName}
+                  className="h-full w-full object-cover"
+                />
+              ) : avatar.startsWith("/upload") ? (
+                <Image
+                  width={300}
+                  height={300}
+                  src={avatar}
+                  alt={fullName}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <Image
+                  width={300}
+                  height={300}
+                  src={logo}
+                  alt={fullName}
+                  className="h-full w-full object-cover"
+                />
+              )
             ) : (
-              <span>{initials}</span>
+              <div className="w-full rounded-xl flex items-center justify-center flex-col gap-3 h-full bg-base-100 border border-base-300/30">
+                <FaPhotoVideo className="h-20 w-20" />
+                <p>Pas d&apos;image de couverture</p>
+              </div>
             )}
           </div>
           <div>

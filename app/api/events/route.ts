@@ -3,6 +3,7 @@ import { NextResponse } from "next/server"
 import path from "path"
 import fs from "fs"
 import { randomUUID } from "crypto"
+import { auth } from "@clerk/nextjs/server"
 // import { main } from "@/services/prismaConnect"
 // import { User } from "@/type/types"
 
@@ -12,7 +13,7 @@ export const GET = async () => {
         // await main();
         const events = await prisma.event.findMany({
             include: {
-                users: true
+                users: true,
             }
         });
         // console.log(events)
@@ -34,7 +35,11 @@ export const POST = async (req: Request) => {
         const startDateStr = formData.get("startDate") as string
         const endDateStr = formData.get("endDate") as string;
         // const users = formData.get("users") as User[] | null
-        const image = formData.get("coverImage") as File | null;
+        // const image = formData.get("coverImage") as File | null;
+        const coverImage =
+            formData.get("coverImage") as string | null
+        const coverImageId =
+            formData.get("coverImageId") as string | null
 
         if (!title || !description || !startDateStr || !endDateStr) {
             return NextResponse.json({ message: "Missing required fields" }, { status: 400 })
@@ -50,45 +55,60 @@ export const POST = async (req: Request) => {
 
         // await main()
 
-        let coverImage: string | null = null;
+        // let coverImage: string | null = null;
 
-        if (image) {
+        // if (image) {
+        //     try {
+
+        //         const buffer = Buffer.from(await image.arrayBuffer())
+
+        //         const fileName = `${randomUUID()}-${image.name.replace(/[^a-zA-Z0-9.-]/g, "")}`
+        //         const uploadDir = path.join(process.cwd(), 'public', 'uploads')
+
+        //         // Create uploads directory if it doesn't exist
+        //         await fs.promises.mkdir(uploadDir, { recursive: true })
+
+        //         const imagePath = path.join(uploadDir, fileName)
+        //         await fs.promises.writeFile(imagePath, buffer)
+        //         coverImage = `/uploads/${fileName}`
+
+
+        //     } catch (err) {
+        //         console.error("Image upload error:", err)
+        //         coverImage = null
+        //     }
+        // }
+        const { userId } = await auth()
+
+        if (userId) {
             try {
-
-                const buffer = Buffer.from(await image.arrayBuffer())
-
-                const fileName = `${randomUUID()}-${image.name.replace(/[^a-zA-Z0-9.-]/g, "")}`
-                const uploadDir = path.join(process.cwd(), 'public', 'uploads')
-
-                // Create uploads directory if it doesn't exist
-                await fs.promises.mkdir(uploadDir, { recursive: true })
-
-                const imagePath = path.join(uploadDir, fileName)
-                await fs.promises.writeFile(imagePath, buffer)
-                coverImage = `/uploads/${fileName}`
-
-
+                const user = await prisma.authUser.findUnique({
+                    where: {
+                        clerkId: userId
+                    }
+                })
+                const event = await prisma.event.create({
+                    data: {
+                        title,
+                        description,
+                        startDate,
+                        endDate,
+                        coverImage,
+                        coverImageId,
+                        ownerId: user?.id,
+                    }
+                })
+                return NextResponse.json({ message: "Event created successfully", event }, { status: 201 })
             } catch (err) {
-                console.error("Image upload error:", err)
-                coverImage = null
+                return NextResponse.json({ message: "Error in event userplace" }, { status: 500 })
             }
+        } else {
+            return NextResponse.json({ message: "Utilisateur introuvable, veuillez vous authentifier" }, { status: 404 })
         }
-
-        const event = await prisma.event.create({
-            data: {
-                title,
-                description,
-                startDate,
-                endDate,
-                coverImage,
-            }
-        })
-
-        return NextResponse.json({ message: "Event created successfully", event }, { status: 201 })
-
     } catch (err) {
         return NextResponse.json({ message: "Error in event route" }, { status: 500 })
     }
+
     // finally {
     //     await prisma.$disconnect()
     //}

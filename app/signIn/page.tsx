@@ -1,18 +1,17 @@
 "use client"
 import React from 'react'
-import Wrapper from '../components/Wrapper'
 import styles from "@/app/style"
 import Image from 'next/image'
 import logo from "../assets/logo.jpg";
 import { LogIn } from 'lucide-react';
-import { signIn, useSession } from "next-auth/react"
+import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { FcGoogle } from 'react-icons/fc'
+import WrapperSide from '../components/WrapperSide';
 
 const Loggin = () => {
 
   const router = useRouter()
-  const { data: session } = useSession()
 
   async function handleGoogleSignIn() {
     const result = await signIn("google", {
@@ -25,7 +24,7 @@ const Loggin = () => {
   }
 
   return (
-    <Wrapper>
+    <WrapperSide>
       <div className={`${styles.flexCenter} w-full px-6 min-h-screen`}>
         <div className={`w-full max-w-120 ${styles.flexCenter} flex-col p-6 rounded-lg gap-4 bg-base-300 border_animate`}>
           <div className={`${styles.flexBetween} w-full gap-2`}>
@@ -53,7 +52,7 @@ const Loggin = () => {
         </div>
       </div>
 
-    </Wrapper>
+    </WrapperSide>
   )
 }
 

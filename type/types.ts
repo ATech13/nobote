@@ -1,10 +1,11 @@
-import { Event as EventType, User as UserType } from "@prisma/client"
+import { Event as EventType, User as UserType, AuthUser as AuthUserType, Comment } from "@prisma/client"
 
 export interface EventPropsInterface {
     id: string;
     title: string;
     description: string;
     startDate: Date;
+    status: string;
     endDate: Date;
     coverImage?: string;
     createdAt: Date;
@@ -68,6 +69,7 @@ export interface User {
     avatar?: string
     bio?: string
     eventId: string
+    password: string
 }
 
 export interface Result {
@@ -88,6 +90,20 @@ export const userSelect = {
     createdAt: true,
 }
 
+export type StatusType = "DISABLED" | "ACTIVE" | "UPCOMING" | "FINISHED"
+
+export interface UploadedFile {
+    filePath: string
+    url: string
+    name: string
+    fileId: string
+}
+
 export interface EventUser extends EventType {
-    users: UserType[]
+    users: UserType[],
+    comments: Comment[]
+}
+
+export interface AuthUser extends AuthUserType {
+    events: EventType[]
 }

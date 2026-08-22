@@ -3,6 +3,7 @@ import { prisma } from "@/services/db"
 import { writeFile, unlink, mkdir } from "fs/promises"
 import path from "path"
 import { randomUUID } from "crypto"
+import imagekit from "@/lib/imagekit"
 
 export const GET = async (req: Request, { params }: { params: { id: string } }) => {
     try {
@@ -29,7 +30,7 @@ export const GET = async (req: Request, { params }: { params: { id: string } }) 
 
 export const PUT = async (req: Request, { params }: { params: { id: string } }) => {
     try {
-        const {id} = await params
+        const { id } = await params
 
         const formData = await req.formData()
 
@@ -112,9 +113,49 @@ export const PUT = async (req: Request, { params }: { params: { id: string } }) 
 }
 
 
+// export const DELETE = async (req: Request, { params }: { params: { id: string } }) => {
+//     try {
+//         const {id} = await params
+//         if (!id) {
+//             return NextResponse.json({ message: "Invalid id" }, { status: 400 })
+//         }
+
+//         // await main()
+
+//         const user = await prisma.user.findUnique({
+//             where: { id }
+//         })
+
+//         if (!user) {
+//             return NextResponse.json({ message: "User not found" }, { status: 404 })
+//         }
+
+//         if (user.avatar) {
+//             try {
+//                 const imagePath = user.avatar.split("/uploads/")[1]
+
+//                 if (imagePath) {
+//                     await unlink(path.join(process.cwd(), 'public', 'uploads', imagePath))
+//                 }
+//             } catch (err) {
+//                 throw new Error("Error in deleting image")
+//             }
+//         }
+
+//         await prisma.user.delete({
+//             where: { id }
+//         })
+//         return NextResponse.json({ message: "User deleted successfully" }, { status: 200 })
+//     } catch (err) {
+//         return NextResponse.json({ message: "Error in user route" }, { status: 500 })
+//     } finally {
+//         // await prisma.$disconnect()
+//     }
+// }
+
 export const DELETE = async (req: Request, { params }: { params: { id: string } }) => {
     try {
-        const {id} = await params
+        const { id } = await params
         if (!id) {
             return NextResponse.json({ message: "Invalid id" }, { status: 400 })
         }
@@ -122,31 +163,49 @@ export const DELETE = async (req: Request, { params }: { params: { id: string } 
         // await main()
 
         const user = await prisma.user.findUnique({
-            where: { id }
+            where: { id: id },
         })
 
         if (!user) {
-            return NextResponse.json({ message: "User not found" }, { status: 404 })
+            return NextResponse.json({ message: "Event not found" }, { status: 404 })
         }
 
-        if (user.avatar) {
-            try {
-                const imagePath = user.avatar.split("/uploads/")[1]
+        // if (event.coverImage) {
+        //     try {
+        //         const imagePath = event.coverImage.split("/uploads/")[1]
 
-                if (imagePath) {
-                    await unlink(path.join(process.cwd(), 'public', 'uploads', imagePath))
-                }
-            } catch (err) {
-                throw new Error("Error in deleting image")
+        //         if (imagePath) {
+        //             await unlink(path.join(process.cwd(), 'public', 'uploads', imagePath))
+        //         }
+        //     } catch (err) {
+        //         throw new Error("Error in deleting image")
+        //     }
+        // }
+        if (user.avatarId) {
+            try {
+                await imagekit.files.delete(user.avatarId)
+            } catch (error) {
+                console.error(
+                    "ImageKit deletion error:",
+                    error
+                )
+
+                return NextResponse.json(
+                    {
+                        message:
+                            "Impossible de supprimer l'image ImageKit",
+                    },
+                    { status: 500 }
+                )
             }
         }
 
         await prisma.user.delete({
             where: { id }
         })
-        return NextResponse.json({ message: "User deleted successfully" }, { status: 200 })
+        return NextResponse.json({ message: "user deleted successfully" }, { status: 200 })
     } catch (err) {
-        return NextResponse.json({ message: "Error in user route" }, { status: 500 })
+        return NextResponse.json({ message: "Error in event route" }, { status: 500 })
     } finally {
         // await prisma.$disconnect()
     }

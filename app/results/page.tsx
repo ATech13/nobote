@@ -3,13 +3,19 @@
 import React, { useEffect, useState } from 'react'
 import { LuLoader } from 'react-icons/lu'
 import EmptyState from '../components/EmptyState'
-import Wrapper from '../components/Wrapper'
 import ResultCard from '../components/ResultCard'
 import Breadcrumbs from '../components/Breadcrumbs'
 import { EventUser, Result, User } from '@/type/types'
 import { useRouter } from 'next/navigation'
+import { Image as IKImage } from "@imagekit/next"
 import Image from "next/image"
+import logo from "@/app/assets/logo.jpg"
 import Link from 'next/link'
+import WrapperSide from '../components/WrapperSide'
+import Loader from '../components/Loader'
+import ErrorComponent from '../components/Error'
+import { FaPhotoVideo, FaRegCalendarAlt } from 'react-icons/fa'
+import { IoBarChartOutline } from 'react-icons/io5'
 
 
 
@@ -29,7 +35,8 @@ const ResultsPage = () => {
         const data = await response.json()
 
         if (!response.ok) {
-          throw new Error(data.message || "Erreur de chargement")
+          // throw new Error(data.message || 'Erreur de chargement')
+          throw new Error("Erreur de chargement des évenements pour afficher les résultats")
         }
         setEvents(data.events)
         setUsers(data.events.users || [])
@@ -46,7 +53,8 @@ const ResultsPage = () => {
         const data = await response.json()
 
         if (!response.ok) {
-          throw new Error(data.message || 'Erreur de chargement')
+          // throw new Error(data.message || 'Erreur de chargement')
+          throw new Error("Erreur de chargement des résultats")
         }
 
         setResults(data.results || [])
@@ -61,10 +69,27 @@ const ResultsPage = () => {
     fetchResults()
   }, [])
 
+  if (loading) {
+    return (
+      <WrapperSide>
+        <Loader />
+      </WrapperSide>
+    )
+  }
+
+  if (error) {
+    return (
+      <WrapperSide>
+        <ErrorComponent error={error} />
+      </WrapperSide>
+    )
+  }
+
   return (
-    <Wrapper>
-      <div className="mt-24 px-2 md:px-6 pb-10">
-        <div className="mx-auto max-w-7xl rounded-4xl border border-base-200 bg-linear-to-br from-base-100/90 via-base-200/80 to-white/80 p-2 md:p-6 shadow-2xl shadow-black/10">
+    <WrapperSide>
+      <div className="p-4 w-full">
+        <div className="mx-auto max-w-7xl rounded-4xl border border-base-200 bg-linear-to-br from-base-300/90 via-base-300/60 to-base-100/20 p-2 md:p-6 shadow-[0px_0px_15px_var(--color-base-content)]
+                        shadow-base-content/30">
           {/* <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
               <span className="inline-flex rounded-full bg-secondary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.35em] text-secondary">
@@ -84,24 +109,20 @@ const ResultsPage = () => {
           <div></div>
 
           <div className="mt-6">
-            <Breadcrumbs
-              items={[
-                { label: 'Evénement', href: '/event/info' },
-                { label: 'Résultats' },
-              ]}
-            />
+            <Breadcrumbs items={[
+              { label: 'Événements', href: `/event/info`, icon: <FaRegCalendarAlt className="md:w-6 md:h-6 h-4 w-4" />, },
+              { label: 'Résultats', href: ``, icon: <IoBarChartOutline className="md:w-6 md:h-6 h-4 w-4" />, },
+            ]} />
           </div>
 
           {loading ? (
-            <div className="mt-12 flex min-h-[40vh] items-center justify-center">
-              <LuLoader className="h-12 w-12 animate-spin text-secondary" />
-            </div>
+            <Loader />
           ) : error ? (
             <div className="mt-12 flex min-h-[40vh] items-center justify-center">
               <p className="text-red-500">{error}</p>
             </div>
           ) : results.length === 0 ? (
-            <div className="mt-12">
+            <div className="">
               <EmptyState IconComponent={'ClipboardX'} message={'Pas encore des résultats'} />
             </div>
           ) : (
@@ -120,15 +141,40 @@ const ResultsPage = () => {
                 </div>
               ))} */}
               {events?.map((e) => (
-                <div key={e.id} className="flex justify-between items-center group w-full rounded-4xl border border-base-200 bg-white/70 backdrop-blur-xl shadow-2xl shadow-black/5 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-secondary/40">
-                  <div className="relative h-12 w-12 rounded-full overflow-hidden border-4 border-secondary/20 bg-base-200 shadow-inner flex items-center justify-center text-2xl font-bold text-secondary">
-                    {e.coverImage && (
-                      <Image
-                        src={e.coverImage}
-                        alt={e.title}
-                        fill
-                        className="object-cover"
-                      />
+                <div key={e.id} className="flex justify-between items-center group w-full rounded-full border border-base-content/10 bg-base-100 backdrop-blur-xl shadow-2xl shadow-black/5 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-secondary/40 hover:shadow-secondary/40 hover:shadow-lg">
+                  <div className="relative h-12 w-12 rounded-4xl overflow-hidden border-4 border-secondary/20 bg-base-200 shadow-inner flex items-center justify-center text-2xl font-bold text-secondary">
+                    {e.coverImage ? (
+                      e.coverImage.startsWith("/event") ? (
+                        <IKImage
+                          urlEndpoint={process.env.NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT!}
+                          width={400}
+                          height={400}
+                          src={e.coverImage}
+                          alt={e.title}
+                          className="h-full w-full object-cover"
+                        />
+                      ) : e.coverImage.startsWith("/upload") ? (
+                        <Image
+                          width={400}
+                          height={400}
+                          src={e.coverImage}
+                          alt={e.title}
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <Image
+                          width={400}
+                          height={400}
+                          src={logo}
+                          alt={e.title}
+                          className="h-full w-full object-cover"
+                        />
+                      )
+                    ) : (
+                      <div className="w-full rounded-xl flex items-center justify-center flex-col gap-3 h-full bg-base-100 border border-base-300/30">
+                        <FaPhotoVideo className="h-20 w-20" />
+                        <p>Pas d&apos;image de couverture</p>
+                      </div>
                     )}
                   </div>
                   <div>
@@ -136,14 +182,14 @@ const ResultsPage = () => {
                     <h3 className="md:text-md text-xs font-semibold text-base-content">{e.title}</h3>
                     {/* <p className="md:text-sm text-xs text-gray-500 w-60 line-clamp-1">{e.description}</p> */}
                   </div>
-                  <button onClick={() => router.push(`/results/${e.id}`)} className="btn btn-secondary btn-sm">Résultat</button>
+                  <button onClick={() => router.push(`/results/${e.id}`)} disabled={e.status === "DISABLED"} className={`btn btn-secondary btn-sm rounded-lg`}>Résultat</button>
                 </div>
               ))}
             </div>
           )}
         </div>
       </div>
-    </Wrapper>
+    </WrapperSide>
   )
 }
 

@@ -6,6 +6,7 @@ import React from 'react'
 interface BreadcrumbItem {
     label: string
     href?: string
+    icon?: React.ReactNode
 }
 
 interface BreadcrumbsProps {
@@ -13,16 +14,18 @@ interface BreadcrumbsProps {
 }
 
 const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => (
-    <div className="breadcrumbs text-sm mb-4">
-        <ul className="flex flex-wrap items-center gap-2 text-gray-500">
+    <div className="breadcrumbs text-xs sm:text-sm px-2 w-full bg-base-200 rounded-lg">
+        <ul className="flex items-center gap-1 text-gray-500 p-1 sm:p-2 rounded-lg">
             {items.map((item, index) => (
-                <li key={`${item.label}-${index}`} className="flex items-center gap-2">
+                <li key={`${item.label}-${index}`} className="flex items-center gap-1">
                     {item.href ? (
-                        <Link href={item.href} className="text-secondary hover:text-secondary-focus">
-                            {item.label}
+                        <Link href={item.href} className="flex items-center gap-1 text-secondary hover:text-secondary-focus">
+                            {item.icon} <span className="text-xs sm:text-sm"> {item.label} </span>
                         </Link>
                     ) : (
-                        <span className="font-semibold text-base-content">{item.label}</span>
+                        <div className="flex items-center gap-1">
+                            {item.icon} <span className="font-semibold text-xs sm:text-sm"> {item.label} </span>
+                        </div>
                     )}
                     {index < items.length - 1 && <span className="text-gray-400"></span>}
                 </li>

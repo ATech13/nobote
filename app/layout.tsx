@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import SessionWrapper from "@/lib/SessionWrapper"
+import Navbar from "./components/Navbar";
+import { ClerkProvider, Show, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
+import { Toaster } from "sonner"
+
 
 
 export const metadata: Metadata = {
@@ -14,13 +17,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <SessionWrapper>
-      <html lang="fr" data-theme="light">
-        <body
-        >
+    <html lang="fr" data-theme="light">
+      <body
+        className=""
+      >
+        <ClerkProvider>
+          <Navbar />
           {children}
-        </body>
-      </html>
-    </SessionWrapper>
+          <Toaster
+            position="top-right"
+            richColors
+            closeButton
+          />
+        </ClerkProvider>
+      </body>
+    </html>
   );
 }

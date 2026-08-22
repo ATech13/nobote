@@ -9,7 +9,7 @@ interface EmptyStateProps {
 const EmptyState: FC<EmptyStateProps> = ({ IconComponent, message }) => {
     const SelectedIcon = icons[IconComponent];
     return (
-        <div className="w-full h-full my-40 flex justify-center items-center flex-col">
+        <div className="w-full h-full flex justify-center items-center flex-col">
             <div className="wiggle-animation">
                 <SelectedIcon strokeWidth={1} className="w-30 h-30 text-secondary"/>
             </div>
