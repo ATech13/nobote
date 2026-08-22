@@ -158,7 +158,7 @@ const page = () => {
         { label: 'Dashboard', href: ``, icon: <BiSolidDashboard className="md:w-6 md:h-6 h-4 w-4" />, },
       ]} />
       {/* USER ACCOUNT INFORMATIONS */}
-      <div className="flex justify-between items-center flex-col md:flex-row gap-2 px-3">
+      <div className="flex justify-between items-center flex-col md:flex-row gap-2 px-6">
 
         <div className="flex items-center gap-1 flex-col sm:flex-row">
           {user ? (
@@ -193,7 +193,7 @@ const page = () => {
       {/* USER ACCOUNT INFORMATIONS */}
 
       {authedUser?.rang === "NATION" && (
-        <div className='grid w-full p-4 place-items-center rounded-lg'>
+        <div className='grid w-full py-4 px-6 place-items-center rounded-lg'>
           <Link href={"/authedUsers"} className="bg-secondary/20 backdrop-blur-xs text-secondary py-3 px-10 w-full max-w-2xl rounded-lg flex justify-center items-center gap-3">
             <div
               className={`flex items-center py-3 px-4 gap-3`}
@@ -207,7 +207,7 @@ const page = () => {
 
       {/* USER EVENTS INFORMATIONS */}
 
-      <div className="flex justify-center items-center px-2 flex-col gap-3">
+      <div className="flex justify-center items-center px-6 flex-col gap-3">
         <div className="w-full justify-between items-center flex gap-2 p-4 bg-base-200 max-w-2xl rounded-lg">
           <p className='text-sm'>Changer le thème de l'application</p>
           <ThemeToggle />
@@ -247,7 +247,7 @@ const page = () => {
 
       {/* ALL EVENTS FOR ADMINS  */}
       {authedUser?.rang === "NATION" && (
-        <div className='flex flex-col gap-2 items-center justify-center w-full pt-5'>
+        <div className='flex flex-col gap-2 items-center justify-center w-full pt-5 px-6'>
           <h1> Tous les évenements disponibles sur Noboté </h1>
           <div className="grid max-w-2xl items-center w-full gap-2 px-2">
             {events.map((event) => (
