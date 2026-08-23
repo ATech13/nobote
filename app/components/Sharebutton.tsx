@@ -36,10 +36,9 @@ const ShareButton = ({
         <button
             type="button"
             onClick={handleShare}
-            className="btn btn-secondary btn-soft rounded-lg"
+            className="rounded-lg p-2 bg-base-100/45 cursor-pointer hover:bg-base-100/80 transition-all duration-300 ease-in-out text-secondary"
         >
-            <Share2 className="w-4 h-4" />
-            Partager
+            <Share2 className="w-5 h-5" />
         </button>
     )
 }

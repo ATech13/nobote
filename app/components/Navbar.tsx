@@ -8,10 +8,9 @@ import Image from "next/image"
 import Link from "next/link"
 import assets from '../assets/assets';
 import { FaRegCalendarAlt, FaUserAlt } from 'react-icons/fa';
-import { BiDotsVertical } from 'react-icons/bi'
 import { FaUsersGear } from 'react-icons/fa6'
 import { IoBarChartOutline } from 'react-icons/io5'
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { BadgeCheck, CopyPlus } from 'lucide-react'
 import { GiUpgrade } from 'react-icons/gi'
 import { AuthUser } from "@prisma/client";
@@ -20,12 +19,15 @@ import { UserButton, useUser } from "@clerk/nextjs";
 import AuthButton from "./AuthButton";
 import ToggleTheme from "./ToggleTheme";
 import { toast } from "sonner";
+import { GrRefresh } from "react-icons/gr";
+import { BiDotsVerticalRounded } from "react-icons/bi";
 
 const Navbar = () => {
 
     const [authedUser, setAuthedUser] = useState<AuthUser | null>(null)
     const { isLoaded, isSignedIn, user } = useUser();
     const [theme, setTheme] = useState("")
+    const router = useRouter()
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -49,30 +51,30 @@ const Navbar = () => {
         fetchUser()
     }, [])
 
-    useEffect(() => {
-        const getDBTheme = async () => {
-            try {
-                const response = await fetch("/api/session_user/theme")
+    const getDBTheme = async () => {
+        try {
+            const response = await fetch("/api/session_user/theme")
 
-                if (!response.ok) {
-                    toast.warning("Veuillez vous authentifier")
-                }
-
-                const data = await response.json()
-
-                setTheme(data.theme)
-
-
-            } catch (error) {
-                console.error(
-                    "Erreur récupération thème:",
-                    error
-                )
+            if (!response.ok) {
+                toast.warning("Veuillez vous authentifier")
             }
-        }
 
+            const data = await response.json()
+            setTheme(data.theme)
+
+
+        } catch (error) {
+            console.error(
+                "Erreur récupération thème:",
+                error
+            )
+        }
+    }
+
+    useEffect(() => {
         getDBTheme()
-    }, [])
+        document.documentElement.setAttribute("data-theme", theme)
+    })
 
     // const { data: session } = useSession()
     const pathname = usePathname()
@@ -85,17 +87,23 @@ const Navbar = () => {
     return (
 
         <>
-            <div className='sticky flex justify-between items-center z-99 px-6 py-1 backdrop-blur-[5px] top-0 left-0 sm:w-full sm:border-b border-base-content/30'>
+            <div className='sticky flex justify-between items-center z-99 px-6 py-2 sm:py-1 bg-base-100/70 backdrop-blur-[5px] top-0 left-0 sm:w-full sm:border-b border-base-content/40 shadow-xs'>
                 {/* NAVBAR */}
-                <Link href={"/user/info"} className="flex items-center gap-1 z-100">
+                <div className="flex items-center gap-1 text-accent">
+                    <button onClick={() => router.replace(window.location.pathname)}>
+                        <GrRefresh className="h-5 w-5" />
+                    </button>
+                    <Link href={"/user/info"} className="flex items-center gap-1 z-100">
                     <div className="overflow-hidden">
                         {theme === "light" ?
-                            <Image src={assets.nobote_full} alt="logo de noboté" className="h-full w-40 scale-150 object-cover" /> :
-                            <Image src={assets.nobote_full_white} alt="logo de noboté" className="h-full w-40 scale-150 object-cover" />
+                            <Image src={assets.nobote_full} alt="logo de noboté" className="hidden sm:block h-full w-40 scale-150 object-cover" /> :
+                            <Image src={assets.nobote_full_white} alt="logo de noboté" className="hidden sm:block h-full w-40 scale-150 object-cover" />
                         }
+                        <Image src={assets.nobote_logo} alt="Logo de noboté" className="h-12 w-12 block sm:hidden" />
                     </div>
                     {/* <span className="uppercase font-bold text-2xl md:text-3xl">noboté</span> */}
                 </Link>
+                </div>
 
                 <ul className="sm:flex items-center gap-2 hidden">
                     {menuItems.map((item) => {
@@ -119,7 +127,7 @@ const Navbar = () => {
                 <div className="md:hidden flex items-center gap-1">
                     <AuthButton />
                     <div className="dropdown dropdown-end md:hidden">
-                        <div tabIndex={0} role="button" className="md:hidden block"> <BiDotsVertical className="h-5.5 w-5.5" /> </div>
+                        <div tabIndex={0} role="button" className="md:hidden block"> <BiDotsVerticalRounded className="h-5.5 w-5.5" /> </div>
                         <ul tabIndex={-1} className="dropdown-content menu gap-2 bg-base-200/80 backdrop-blur-lg rounded-box z-1 w-52 p-2 shadow-md text-xs">
                             {menuItems.map((item) => {
 

@@ -8,7 +8,7 @@ import { LuLoader } from 'react-icons/lu'
 import { useRouter } from 'next/navigation'
 import EmptyState from '@/app/components/EmptyState'
 import Link from 'next/link'
-import { FaEye, FaPhotoVideo, FaRegCalendarAlt } from 'react-icons/fa'
+import { FaEye, FaPhotoVideo, FaRegCalendarAlt, FaRegCommentDots } from 'react-icons/fa'
 import Breadcrumbs from '@/app/components/Breadcrumbs'
 import VoteButton from '@/app/components/VoteButton'
 // import { EventDetail } from '@/type/types'
@@ -250,16 +250,16 @@ const EventDetailPage = ({ params }: { params: { id: string } }) => {
     return (
         <WrapperSide>
             <div className={`px-2 ${styles.flexCenter} gap-4 flex-col min-h-screen`}>
-                <button onClick={() => router.back()} className="btn btn-ghost btn-sm self-start">
+                <button onClick={() => router.back()} className="btn btn-ghost btn-sm self-start hidden sm.block">
                     <ArrowLeft className="h-4 w-4" />
-                    Retour
+                    <span className=''>Retour</span>
                 </button>
                 <Breadcrumbs items={[
                     { label: 'Événements', href: '/event/info', icon: <FaRegCalendarAlt className="md:w-6 md:h-6 h-4 w-4" />, },
                     { label: `${event.title}` },
                 ]} />
                 {(authedUser?.id === event.ownerId && authedUser?.rang !== "E" && authedUser?.rang !== "D") || authedUser?.rang === "NATION" ? (
-                    <div className="flex justify-center items-center gap-3 p-2 bg-base-200 w-full rounded-lg">
+                    <div className="flex justify-end items-center gap-3 p-2 w-full rounded-lg">
                         <button
                             onClick={() =>
                                 handleStatusChange(
@@ -269,7 +269,7 @@ const EventDetailPage = ({ params }: { params: { id: string } }) => {
                                 )
                             }
                             disabled={updating || status === "FINISHED"}
-                            className="btn btn-secondary"
+                            className="btn btn-secondary rounded-lg"
                         >
                             {updating
                                 ? "Modification..."
@@ -280,9 +280,9 @@ const EventDetailPage = ({ params }: { params: { id: string } }) => {
                         <button
                             type="button"
                             onClick={() => (document.getElementById('eventDelete_confirmation') as HTMLDialogElement).showModal()}
-                            className="btn btn-error btn-soft btn-sm rounded-lg"
+                            className="btn btn-error btn-soft rounded-lg"
                         >
-                            Supprimer
+                            <Trash2 />
                         </button>
                         <dialog id="eventDelete_confirmation" className="modal">
                             <div className="modal-box">
@@ -329,18 +329,9 @@ const EventDetailPage = ({ params }: { params: { id: string } }) => {
                         )}
                     </div>
                 )}
-                <div className="w-full flex justify-center items-center p-3"
-                // onClick={handleShare}
-                >
-                    <ShareButton
-                        title={event.title}
-                        text={`Participez à l'évenement "${event.title}" sur NOBOTE.`}
-                        url={`${process.env.NEXT_PUBLIC_URL_APP}/event/info/${event.id}`}
-                    />
-                </div>
 
                 <div className={`w-full ${styles.flexCenter} flex-col gap-6 rounded-lg px-4 md:p-8`}>
-                    <div className="grid lg:grid-cols-2 items-center p-2 gap-3 bg-base-200 rounded-xl border border-base-content/25 shadow-md">
+                    <div className="grid lg:grid-cols-2 items-center p-2 gap-8 lg:gap-3 bg-base-200 rounded-xl border border-base-content/25 shadow-md">
                         <div className={`${styles.flexCenter} flex-col gap-2 w-full text-center`}>
                             <h1 className={`font-poppins font-semibold md:text-[32px] text-[25px] text-secondary`}>{event.title}</h1>
                             <p className={`${styles.paragraph} linecamp text-center text-sm md:text-md`}>{event.description}</p>
@@ -413,7 +404,7 @@ const EventDetailPage = ({ params }: { params: { id: string } }) => {
                     ) : (
                         <div className={`grid sm:grid-cols-[repeat(auto-fit,minmax(300px,1fr))] grid-cols-[repeat(auto-fit,minmax(250px,1fr))] place-items-center w-full gap-3 py-4`}>
                             {event.users.map((user) => (
-                                <div key={user.id} className={`${styles.flexCenter} flex-col gap-2 w-full rounded-lg bg-base-300 p-4 hover:shadow-lg transition-all`}>
+                                <div key={user.id} className={`${styles.flexCenter} flex-col max-w-125 gap-2 w-full rounded-lg bg-base-300 p-4 hover:shadow-lg transition-all`}>
                                     <div className="h-80 w-full overflow-hidden rounded-lg">
                                         {user.avatar ? (
                                             user.avatar.startsWith("/event") ? (
@@ -453,7 +444,7 @@ const EventDetailPage = ({ params }: { params: { id: string } }) => {
                                         <h1 className={`text-sm ${styles.paragraph} text-center font-bold`}> {user.fullName} </h1>
                                         <p className="text-xs text-gray-400 text-center">@{user.username}</p>
                                         <p className="text-xs text-gray-400 text-center line-clamp-2">{user.bio}</p>
-                                        <div className="w-full flex flex-col gap-2">
+                                        <div className="w-full grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-2">
                                             {event.status === "DISABLED" || event.status === "FINISHED"}
                                             <VoteButton
                                                 candidateId={user.id}
@@ -482,7 +473,7 @@ const EventDetailPage = ({ params }: { params: { id: string } }) => {
                     </Link>
                 </div>
             </div>
-            <div className={`grid items-end gap-1 fixed w-full top-0 p-3 max-w-xl z-101 ${viewComments ? "-left-full" : "left-0"} bg-base-200/75 backdrop-blur-xs h-screen overflow-hidden rounded-lg shadow-md transition-all duration-400 `}>
+            <div className={`grid items-end gap-1 fixed w-full right-0 p-3 max-w-xl z-101 ${viewComments ? "-top-[120%]" : "top-0"} bg-base-200/75 backdrop-blur-xs h-screen overflow-hidden rounded-lg shadow-md transition-all duration-400 `}>
                 <div className="flex gap-1 flex-col shadow-md p-3 rounded-lg">
                     <div className="flex justify-between items-center gap-2">
                         <div className="flex items-center gap-2">
@@ -551,12 +542,16 @@ const EventDetailPage = ({ params }: { params: { id: string } }) => {
                     </div>
                 </div>
             </div>
-            <div className='fixed md:bottom-0 right-0 p-5'>
-                <button className="btn rounded-full btn-sm md:btn-md btn-secondary btn-soft"
-                    onClick={() => setViewComments(!viewComments)}
-                >
-                    <Plus className='h-5 w-5' /> Ajouter un commentaire
+            <div className='fixed top-[50%] right-0 transalte-[50%] p-2 md:p-5 text-secondary flex gap-3 shadow-md bg-secondary/30 backdrop-blur-md items-center rounded-lg flex-col'>
+                <button className="rounded-lg p-2 bg-base-100/45 cursor-pointer hover:bg-base-100/80 transition-all duration-300 ease-in-out"
+                    onClick={() => setViewComments(!viewComments)}>
+                    <FaRegCommentDots className='h-5 w-5' />
                 </button>
+                    <ShareButton
+                        title={event.title}
+                        text={`Participez à l'évenement "${event.title}" sur NOBOTE.`}
+                        url={`${process.env.NEXT_PUBLIC_URL_APP}/event/info/${event.id}`}
+                    />
             </div>
         </WrapperSide>
     )

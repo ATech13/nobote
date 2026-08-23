@@ -186,8 +186,8 @@ const UserCreatePage = () => {
             // setAvatarFile(null)
             // setAvatarPreview(null)
             toast.success("Utilisateur ajouté avec succès")
-            router.push(`/event/info/${eventId}`)
             setEventId('')
+            router.push(`/user/info`)
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Erreur inattendue')
             toast.error(error)
@@ -203,18 +203,18 @@ const UserCreatePage = () => {
                     { label: 'Candidates', href: `/user/info`, icon: <FaUsersGear className="md:w-6 md:h-6 h-4 w-4" />, },
                     { label: 'Ajouter un candidat', href: ``, icon: <FaUserGear className="md:w-6 md:h-6 h-4 w-4" />, },
                 ]} />
-                <div className={`px-6 py-4 ${styles.flexCenter} gap-6 bg-center bg-cover bg-fixed xl:flex-row flex-col`} style={{
+                <div className={`md:px-6 px-3 py-4 ${styles.flexCenter} gap-6 bg-center bg-cover bg-fixed xl:flex-row flex-col`} style={{
                     backgroundImage: `url(${assets.golden_background.src})`
                 }}>
-                    <div className=''>
+                    <div className='bg-accent rounded-lg'>
                         <Image src={assets.nobote_logo} alt="noboté logo" className="h-full w-full object-cover" />
                     </div>
-                    <div className={`w-full max-w-3xl ${styles.flexCenter} flex-col gap-6 bg-base-300/75 backdrop-blur-md rounded-lg p-8 shadow-lg shadow-base-100/70`}>
+                    <div className={`w-full max-w-3xl ${styles.flexCenter} flex-col gap-6 bg-base-300/75 backdrop-blur-md rounded-lg p-3 md:p-6 shadow-lg shadow-base-100/70`}>
                         <div className={`${styles.flexBetween} w-full gap-2`}>
                             <h1 className={`${styles.heading2}`}>Ajouter un candidat</h1>
                         </div>
 
-                        <form onSubmit={handleSubmit} className="relative w-full grid gap-4 p-2 border rounded-lg border-base-content/40 shadow-[0px_0px_10px] shadow-base-content/60  ">
+                        <form onSubmit={handleSubmit} className="relative w-full grid gap-4 p-2 rounded-lg shadow-lg">
                             <div className="grid lg:grid-cols-2 gap-4">
                                 {/* <input
                                     value={eventId}

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import styles from '../style'
 import { AuthUser, FormPropsInterface, UploadedFile } from '@/type/types'
-import { CheckCircle } from 'lucide-react'
+import { CheckCircle, Loader } from 'lucide-react'
 import { BsUpload } from 'react-icons/bs'
 import FileUpload from './FileUpload'
 import { useUser } from '@clerk/nextjs'
@@ -35,6 +35,7 @@ const Form = ({ initialValues, onSubmit, submitButtonLabel, coverImagePreview }:
     const [authedUser, setAuthedUser] = useState<AuthUser | null>(null)
     const { isLoaded, user } = useUser();
     const router = useRouter()
+    const [loader, setLoader] = useState(false)
 
     const [formData, setFormData] = useState({
         title: initialValues.title,
@@ -115,6 +116,7 @@ const Form = ({ initialValues, onSubmit, submitButtonLabel, coverImagePreview }:
         e: React.FormEvent<HTMLFormElement>
     ) => {
         e.preventDefault()
+        setLoader(true)
 
         try {
             let coverImage: string | undefined = undefined
@@ -195,6 +197,8 @@ const Form = ({ initialValues, onSubmit, submitButtonLabel, coverImagePreview }:
                 "Erreur lors de la soumission :",
                 error
             )
+        } finally {
+            setLoader(false)
         }
     }
 
@@ -310,8 +314,8 @@ const Form = ({ initialValues, onSubmit, submitButtonLabel, coverImagePreview }:
                     <p className="badge badge-sm font-semibold badge-secondary badge-soft animate-bounce"> Rang actuel: {authedUser?.rang} </p>
                 </div>
             ) : (
-                <button type="submit" className="btn btn-sm bg-secondary text-base-100 w-full rounded-lg z-2">
-                    {submitButtonLabel}
+                <button type="submit" disabled={loader}  className="btn btn-sm btn-secondary text-base-100 w-full rounded-lg z-2">
+                    {submitButtonLabel} {loader && <Loader className='h-4 w-4 animate-spin'/>}
                 </button>
             )}
         </form>

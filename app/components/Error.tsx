@@ -1,13 +1,17 @@
+"use client"
+
 import React from 'react'
 import assets from '../assets/assets'
 import Link from 'next/link'
 import Image from "next/image"
+import { useRouter } from 'next/navigation'
 
 interface ErrorProps {
     error: string | null
 }
 
 const ErrorComponent: React.FC<ErrorProps> = ({ error }) => {
+    const router = useRouter()
     return (
         <div className="w-full px-4">
             <div className="relative p-4 w-full overflow-hidden border rounded-lg border-base-content/50">
@@ -16,8 +20,8 @@ const ErrorComponent: React.FC<ErrorProps> = ({ error }) => {
                     <p className="text-4xl font-bold"> Oups! </p>
                     <span className="text-md md:text-xl flex items-center gap-3 text-center"> {error} </span>
                     <div className="flex gap-3 justify-center items-center w-full flex-wrap">
-                        <Link href={"/event/new"} className="btn btn-secondary btn-sm rounded-lg btn-outline"> Créer un évenement </Link>
-                        <Link href={"/event/info"} className="btn btn-secondary btn-sm rounded-lg"> Voir tous les évenements </Link>
+                        <button onClick={() => router.replace(window.location.pathname)} className="btn btn-secondary btn-sm rounded-lg btn-outline"> Actualiser </button>
+                        <Link href={"/user/info"} className="btn btn-secondary btn-sm rounded-lg"> Voir tous les candidats </Link>
                     </div>
                 </div>
                 <div className="absolute right-0 bottom-0 p-5 flex items-center gap-1">

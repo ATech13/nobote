@@ -22,13 +22,14 @@ const AuthedUsers = () => {
                 })
 
                 if (!response.ok) {
-                    toast.error("❌ ERROR: Impossible de récuperer l'utilisateur connecté")
+                    // toast.error("❌ ERROR: Impossible de récuperer l'utilisateur connecté")
+                    console.error("Impossible de récuperer l'utilisateur connecté")
                 }
 
                 const data = await response.json()
                 console.log(data.user)
                 setAuthedUser(data.user)
-                toast.success("✅ SUCCESS : Utilisateur récuperé avec success")
+                // toast.success("✅ SUCCESS : Utilisateur récuperé avec success")
 
             } catch (error) {
                 console.error("Error getting user:", error)

@@ -130,8 +130,8 @@ const page = ({ params }: { params: { id: string } }) => {
 
     return (
         <WrapperSide>
-            <div className="mt-24 px-6 pb-10">
-                <div className="mx-auto max-w-7xl rounded-4xl border border-base-200 bg-linear-to-br from-base-300/90 via-base-300/60 to-base-100/20  shadow-[0px_0px_15px_var(--color-base-content)]  p-6 shadow-base-content/30">
+            <div className="mt-6 px-4">
+                <div className="max-w-7xl rounded-4xl border border-base-200 bg-linear-to-br from-base-300/90 via-base-300/60 to-base-100/20 shadow-[0px_0px_15px_var(--color-base-content)] p-6 shadow-base-content/30">
                     <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                         <div>
                             <span className="inline-flex rounded-full bg-secondary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.35em] text-secondary">
@@ -171,7 +171,7 @@ const page = ({ params }: { params: { id: string } }) => {
                             <EmptyState IconComponent={'ClipboardX'} message={'Pas encore des résultats'} />
                         </div>
                     ) : (
-                        <div className="mt-12 grid gap-6 grid-cols-[repeat(auto-fit,minmax(300px,1fr))] place-items-center">
+                        <div className="mt-12 grid gap-6 grid-cols-[repeat(auto-fit,minmax(250px,1fr))] sm:grid-cols-[repeat(auto-fit,minmax(325px,1fr))] place-items-center w-full">
                             {results.map((result, index) => (
                                 <ResultCard
                                     key={result.id}

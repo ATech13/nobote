@@ -21,10 +21,10 @@ const ThemeToggle = () => {
                 const theme = data.theme
 
                 // Appliquer le thème à la page
-                document.documentElement.setAttribute(
-                    "data-theme",
-                    theme
-                )
+                // document.documentElement.setAttribute(
+                //     "data-theme",
+                //     theme
+                // )
 
                 // Synchroniser le toggle
                 setIsSunset(theme === "sunset")
@@ -51,10 +51,10 @@ const ThemeToggle = () => {
         setIsSunset(e.target.checked)
 
         // Mise à jour immédiate du thème
-        document.documentElement.setAttribute(
-            "data-theme",
-            theme
-        )
+        // document.documentElement.setAttribute(
+        //     "data-theme",
+        //     theme
+        // )
 
         try {
             const response = await fetch("/api/session_user/theme", {

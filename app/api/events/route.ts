@@ -14,6 +14,9 @@ export const GET = async () => {
         const events = await prisma.event.findMany({
             include: {
                 users: true,
+            },
+            orderBy: {
+                createdAt: "desc"
             }
         });
         // console.log(events)

@@ -5,7 +5,7 @@ import Link from "next/link"
 import { Image as IKImage } from "@imagekit/next"
 import Image from "next/image"
 import logo from "@/app/assets/logo.jpg"
-import { ArrowLeft, MapPin, Share2 } from 'lucide-react'
+import { ArrowLeft, MapPin, Share2, Trash2 } from 'lucide-react'
 import { LuLoader } from 'react-icons/lu'
 import { useRouter } from 'next/navigation'
 import Breadcrumbs from '@/app/components/Breadcrumbs'
@@ -156,7 +156,7 @@ const UserDetailPage = ({ params }: { params: { id: string } }) => {
     return (
         <WrapperSide>
             <div className={`px-6 ${styles.flexCenter} gap-4 flex-col`}>
-                <button onClick={() => router.back()} className="btn btn-ghost btn-sm self-start">
+                <button onClick={() => router.back()} className="btn btn-ghost btn-sm self-start hidden sm:flex">
                     <ArrowLeft className="h-4 w-4" />
                     Retour
                 </button>
@@ -168,7 +168,7 @@ const UserDetailPage = ({ params }: { params: { id: string } }) => {
                 <div className="py-2 px-3 w-full flex justify-end items-center">
                     <button className="btn btn-error btn-soft rounded-lg"
                         onClick={() => (document.getElementById('userDelete_confirmation') as HTMLDialogElement).showModal()}>
-                        Supprimer l'utilisateur
+                        <Trash2 className='h-5 w-5' />
                     </button>
                     <dialog id="userDelete_confirmation" className="modal">
                         <div className="modal-box">
@@ -271,7 +271,7 @@ const UserDetailPage = ({ params }: { params: { id: string } }) => {
                                     title={`Noboté: ${user.fullName}`}
                                     text={`Voir l'utilisateur "${user.username}" sur NOBOTE.`}
                                     url={`${process.env.NEXT_PUBLIC_URL_APP}/user/info/${user.id}`}
-                                />
+                                /> <span className='sm:text-sm font-semibold text-xs'>Partager</span>
                                 {/* <Share2 className="h-5 w-5 text-secondary" />
                                 <span className="text-sm font-semibold">Partager</span> */}
                             </div>
@@ -302,7 +302,7 @@ const UserDetailPage = ({ params }: { params: { id: string } }) => {
 
                     {/* Action Buttons */}
                     <div className="grid md:grid-cols-2 items-center gap-2">
-                        <div className="flex badge_animated gap-2 w-full justify-center">
+                        <div className="flex  gap-2 w-full justify-center">
                             {user?.eventId && <VoteButton
                                 candidateId={user.id}
                                 eventId={user?.eventId}
@@ -314,7 +314,7 @@ const UserDetailPage = ({ params }: { params: { id: string } }) => {
                                 }}
                             />}
                         </div>
-                        <div className="flex badge_animated gap-2 w-full justify-center">
+                        <div className="flex  gap-2 w-full justify-center">
                             <Link href={`/event/info`} className="btn w-full btn-secondary btn-outline btn-sm rounded-lg">
                                 Voir les événements
                             </Link>

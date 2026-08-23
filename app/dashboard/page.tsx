@@ -195,7 +195,7 @@ const page = () => {
 
       {authedUser?.rang === "NATION" && (
         <div className='grid w-full py-4 px-6 place-items-center rounded-lg'>
-          <Link href={"/authedUsers"} className="bg-secondary/20 backdrop-blur-xs text-secondary py-3 px-10 w-full max-w-2xl rounded-lg flex justify-center items-center gap-3">
+          <Link href={"/authedUsers"} className="bg-base-200 text-secondary py-3 px-10 w-full max-w-2xl rounded-lg flex justify-center items-center gap-3">
             <div
               className={`flex items-center py-3 px-4 gap-3`}
             >
@@ -226,13 +226,13 @@ const page = () => {
           </div>
         </div>
 
+            <h1 className="text-center text-secondary p-2 text-lg md:text-xl font-semibold flex items-center gap-3"> Vos événements  </h1>
         {authedUser && authedUser?.events.length > 0 ? (
           <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] items-center gap-2 max-w-2xl w-full">
-            <h1 className="text-center text-secondary p-2 text-lg md:text-xl font-semibold flex items-center gap-3"> Vos événements <ArrowRight className="h-5 w-5 animate-bounce" /> </h1>
             {authedUser?.events.map((event) => (
               <Link key={event.id} href={`/event/info/${event?.id}`} className="bg-base-200 p-4 rounded-lg flex flex-col items-center justify-center overflow-hidden border border-base-content/25">
                 <FaRegCalendarAlt className="h-7 w-7" />
-                <h3 className="text-center title_gradient font-semibold"> {event.title} </h3>
+                <h3 className="text-center title_gradient font-semibold line-clamp-2 overflow-hidden"> {event.title} </h3>
                 <span className={`px-2 mt-2 w-fit rounded-xl uppercase tracking-[0.2em] badge sm:badge-sm badge-soft
                     ${event.status === "DISABLED" ? "badge-error" : event.status === "UPCOMING" ? " badge-success" : event.status === "ACTIVE" ? "badge-secondary" : "badge-base-300"} `}>
                   {event.status}
@@ -290,9 +290,9 @@ const page = () => {
                 </div>
                 <div className="flex justify-between items-center gap-2 w-full">
                   <div className="flex flex-col gap-1 overflow-hidden">
-                    <h3 className="font-semibold text-sm"> {event.title} </h3>
-                    <p className="text-xs"> {event.description} </p>
-                    <span className='text-xs'> {new Date(event.createdAt).toLocaleDateString('fr-FR')} </span>
+                    <h3 className="font-semibold text-sm line-clamp-1 overflow-hidden"> {event.title} </h3>
+                    <p className="text-xs line-clamp-2 overflow-hidden"> {event.description} </p>
+                    <span className='text-[10px] text-success'> {new Date(event.createdAt).toLocaleDateString('fr-FR')} </span>
                   </div>
                   <p className={`px-2 mt-2 w-fit rounded-xl uppercase tracking-[0.2em] badge sm:badge-sm badge-xs badge-soft
                       ${event.status === "DISABLED" ? "badge-error" : event.status === "UPCOMING" ? " badge-success" : event.status === "ACTIVE" ? "badge-secondary" : "badge-base-300"} `}>

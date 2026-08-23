@@ -3,6 +3,7 @@ import  assets  from "../assets/assets";
 import Image from "next/image";
 import { ArrowRightCircle } from "lucide-react";
 import { sliderData } from "./Objects";
+import Link from "next/link";
 
 const HeaderSlider = () => {
   
@@ -21,9 +22,9 @@ const HeaderSlider = () => {
   };
 
   return (
-    <div className="overflow-hidden relative w-full">
+    <div className="overflow-hidden relative w-full py-3">
       <div
-        className="flex transition-transform duration-1000 ease-in-out"
+        className="flex transition-transform md:duration-1000 duration-400 ease-in-out"
         style={{
           transform: `translateX(-${currentSlide * 100}%)`,
         }}
@@ -31,7 +32,7 @@ const HeaderSlider = () => {
         {sliderData.map((slide, index) => (
           <div
             key={slide.id}
-            className="items-center grid lg:grid-cols-2 bg-base-300 py-8 md:px-14 px-5 mt-6 rounded-xl min-w-full"
+            className="items-center grid lg:grid-cols-2 bg-base-300 py-8 md:px-14 px-5 min-w-full"
           >
             <div className="flex items-center flex-1 justify-center">
               <Image
@@ -42,16 +43,16 @@ const HeaderSlider = () => {
             </div>
             <div className="md:pl-8 mt-10 md:mt-0">
               <p className="md:text-base text-secondary pb-1">{slide.offer}</p>
-              <h1 className="max-w-lg text-2xl md:text-3xl lg:font-bold font-semibold">
+              <h1 className="max-w-lg text-xl md:text-3xl lg:font-bold font-semibold">
                 {slide.title}
               </h1>
               <div className="flex items-center mt-4 md:mt-6 ">
-                <button className="px-7 py-2 bg-secondary rounded-full text-white font-medium">
+                <Link href={slide.href1} target="_blank" className="px-5 md:px-7 py-1.5 md:py-2 bg-secondary rounded-full text-white text-xs sm:text-sm md:text-md font-medium flex items-center">
                   {slide.buttonText1}
-                </button>
-                <button className="group flex items-center gap-2 px-6 py-2.5 font-medium">
+                </Link>
+                <Link href={slide.href2} target="_blank" className="group flex items-center gap-2 px-6 py-1.5 md:py-2.5 font-medium text-xs sm:text-sm md:text-md">
                   {slide.buttonText2} <ArrowRightCircle className="h-4 w-4 -rotate-45" />
-                </button>
+                </Link>
               </div>
             </div>
           </div>

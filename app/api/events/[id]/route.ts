@@ -321,6 +321,8 @@ export const PATCH = async (
             .toISOString()
             .split("T")[0]
 
+        const now = new Date().toISOString().split("T")[0]
+
         // Activation
         let newStatus: StatusType
 
@@ -329,6 +331,9 @@ export const PATCH = async (
 
         } else if (startDay === endDay) {
             newStatus = "ACTIVE"
+
+        } else if (now < endDay) {
+            newStatus = "FINISHED"
 
         } else {
             newStatus = "FINISHED"

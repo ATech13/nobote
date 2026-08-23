@@ -22,7 +22,9 @@ export const sliderData = [
     title: "Activités de tout genre :-: Elections professionnelles",
     offer: "Professionnalisme et fiabilité ++",
     buttonText1: "S'inscrire",
+    href1 : `${process.env.NEXT_PUBLIC_URL_APP}/sign-up`,
     buttonText2: "Se connecter",
+    href2 : `${process.env.NEXT_PUBLIC_URL_APP}/sign-in`,
     imgSrc: assets.miss_1,
   },
   {
@@ -30,7 +32,9 @@ export const sliderData = [
     title: "Découvrez le plasir de vôter :-: La non-beauté mise en avant",
     offer: "Présentation des candidats 100% !",
     buttonText1: "Evenements",
+    href1 : `${process.env.NEXT_PUBLIC_URL_APP}/event/info`,
     buttonText2: "Candidats",
+    href2 : `${process.env.NEXT_PUBLIC_URL_APP}/user/info`,
     imgSrc: assets.miss_2,
   },
   {
@@ -38,7 +42,9 @@ export const sliderData = [
     title: "Suivi amélioré en profondeur :-: Résultats accessibles en temps réels",
     offer: "Transparence et clarté !!!",
     buttonText1: "Consulter",
+    href1 : `${process.env.NEXT_PUBLIC_URL_APP}/results`,
     buttonText2: "En savoir plus",
+    href2 : `${process.env.NEXT_PUBLIC_URL_APP}/event/new`,
     imgSrc: assets.miss_3,
   },
 ];

@@ -10,7 +10,11 @@ import imagekit from "@/lib/imagekit"
 export const GET = async () => {
     try {
         // await main();
-        const users = await prisma.user.findMany()
+        const users = await prisma.user.findMany({
+            orderBy: {
+                createdAt: "desc"
+            }
+        })
         return NextResponse.json({ message: "Success", users }, { status: 200 })
     } catch (error) {
         return NextResponse.json({ message: "Error in user route" }, { status: 500 })
