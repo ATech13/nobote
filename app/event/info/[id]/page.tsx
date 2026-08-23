@@ -187,7 +187,7 @@ const EventDetailPage = ({ params }: { params: { id: string } }) => {
             }
 
             toast.success("Evenement supprimé avec succès")
-            router.replace("/dashboard")
+            router.push("/dashboard")
 
         } catch (error) {
             toast.error(
