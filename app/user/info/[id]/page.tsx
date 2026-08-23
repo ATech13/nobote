@@ -115,7 +115,7 @@ const UserDetailPage = ({ params }: { params: { id: string } }) => {
             // }
 
             toast.success("Utilisateur supprimé avec succès")
-            router.replace("/user/new")
+            router.push("/user/new")
 
         } catch (error) {
             toast.error(
