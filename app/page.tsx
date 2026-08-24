@@ -30,7 +30,7 @@ export default function Home() {
     url: string;
     thumbnailUrl: string | null
   }>();
-  const [theme, setTheme] = useState("")
+  const [theme, setTheme] = useState("light")
 
   const getDBTheme = async () => {
     try {

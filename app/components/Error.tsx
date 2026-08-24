@@ -13,14 +13,14 @@ interface ErrorProps {
 const ErrorComponent: React.FC<ErrorProps> = ({ error }) => {
     const router = useRouter()
     return (
-        <div className="w-full px-4">
+        <div className="w-full p-4">
             <div className="relative p-4 w-full overflow-hidden border rounded-lg border-base-content/50">
                 <div className="flex flex-col gap-3 items-center justify-center md:h-[80vh] py-50 md:py-0 w-full rounded-lg p-4">
                     <div className="text-9xl text-center scale_animate">😩</div>
                     <p className="text-4xl font-bold"> Oups! </p>
                     <span className="text-md md:text-xl flex items-center gap-3 text-center"> {error} </span>
                     <div className="flex gap-3 justify-center items-center w-full flex-wrap">
-                        <button onClick={() => router.replace(window.location.pathname)} className="btn btn-secondary btn-sm rounded-lg btn-outline"> Actualiser </button>
+                        <button onClick={() => window.location.reload()} className="btn btn-secondary btn-sm rounded-lg btn-outline"> Actualiser </button>
                         <Link href={"/user/info"} className="btn btn-secondary btn-sm rounded-lg"> Voir tous les candidats </Link>
                     </div>
                 </div>

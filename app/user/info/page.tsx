@@ -30,7 +30,8 @@ const UserList = () => {
                     method: "GET"
                 })
                 if (!response.ok) {
-                    toast.error("Impossible de récupérer les événements pour afficher les candidats")
+                    console.error("Impossible de récupérer les événements pour afficher les candidats")
+                    setError("Impossible de récupérer les événements pour afficher les candidats")
                 }
                 const data = await response.json()
                 setUsers(data.users || [])

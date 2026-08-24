@@ -26,7 +26,7 @@ const Navbar = () => {
 
     const [authedUser, setAuthedUser] = useState<AuthUser | null>(null)
     const { isLoaded, isSignedIn, user } = useUser();
-    const [theme, setTheme] = useState("")
+    const [theme, setTheme] = useState("light")
     const router = useRouter()
 
     useEffect(() => {
@@ -89,8 +89,8 @@ const Navbar = () => {
         <>
             <div className='sticky flex justify-between items-center z-99 px-6 py-2 sm:py-1 bg-base-100/70 backdrop-blur-[5px] top-0 left-0 sm:w-full sm:border-b border-base-content/40 shadow-xs'>
                 {/* NAVBAR */}
-                <div className="flex items-center gap-1 text-accent">
-                    <button onClick={() => router.replace(window.location.pathname)}>
+                <div className="flex items-center gap-1">
+                    <button onClick={() => window.location.reload()}>
                         <GrRefresh className="h-5 w-5" />
                     </button>
                     <Link href={"/user/info"} className="flex items-center gap-1 z-100">

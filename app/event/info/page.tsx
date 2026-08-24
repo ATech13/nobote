@@ -26,13 +26,14 @@ const EventInfoList = () => {
       try {
         const response = await fetch('/api/events')
         if (!response.ok) {
-          toast.error("Erreur lors de la récuperation des événements")
+          console.error("Erreur lors de la récuperation des événements")
+          setError("Erreur lors de la recupération des évenements")
         }
         const data = await response.json()
         setEvents(data.events || [])
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Erreur lors de la récupération des événements')
-        toast.error(error)
+        // toast.error(error)
       } finally {
         setLoading(false)
       }

@@ -56,7 +56,7 @@ const UserDetailPage = ({ params }: { params: { id: string } }) => {
                 setUser(data.user)
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'Erreur lors de la récupération de l\'utilisateur')
-                toast.error(error)
+                // toast.error(error)
             } finally {
                 setLoading(false)
             }
@@ -109,7 +109,7 @@ const UserDetailPage = ({ params }: { params: { id: string } }) => {
             const data = await response.json()
 
             if (!response.ok) {
-                toast.error(data.message || "Erreur lors de la suppression")
+                toast.error("Erreur lors de la suppression")
                 throw new Error(data.message || "Erreur lors de la suppression")
             }
             // }

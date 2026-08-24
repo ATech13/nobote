@@ -56,7 +56,8 @@ const EventDetailPage = ({ params }: { params: { id: string } }) => {
 
                 // if (!user?.primaryEmailAddress?.emailAddress) return
                 if (!response.ok) {
-                    toast.error("Failed to get user")
+                    // toast.error("Failed to get user")
+                    console.error("Failed to get user")
                 }
 
                 const data = await response.json()
@@ -65,7 +66,7 @@ const EventDetailPage = ({ params }: { params: { id: string } }) => {
 
             } catch (error) {
                 console.error("Error getting user:", error)
-                toast.error("Erreur lors de la récupération de l'utilisation")
+                // toast.error("Erreur lors de la récupération de l'utilisation")
             }
         }
         fetchUser()
@@ -85,7 +86,7 @@ const EventDetailPage = ({ params }: { params: { id: string } }) => {
                 setComments(data.event.comments || [])
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'Erreur lors de la récupération de l\'événement')
-                toast.error(error)
+                // toast.error(error)
             } finally {
                 setLoading(false)
             }
@@ -125,15 +126,17 @@ const EventDetailPage = ({ params }: { params: { id: string } }) => {
                 throw new Error("Cannot send empty message")
             }
             if (!response.ok) {
-                toast.error("❌ ERROR: Failed to get comments")
+                // toast.error("❌ ERROR: Failed to get comments")
+                console.error('Impossible d\'envoyer le commentaire')
             }
             setDescription("")
-            toast.success("Comment added successfully")
+            // toast.success("Comment added successfully")
+
             router.push(`/event/info/${eventId}`)
 
         } catch (error) {
             console.error("Error getting comments:", error)
-            toast.error("Erreur lors de la récupération des comments")
+            // toast.error("Erreur lors de la récupération des comments")
         }
     }
 
@@ -156,7 +159,7 @@ const EventDetailPage = ({ params }: { params: { id: string } }) => {
             const data = await response.json()
 
             if (!response.ok) {
-                toast.error(`${data.message || "Erreur lors de la modification"}`)
+                toast.error(`"Erreur lors de la modification"}`)
             }
 
             toast.success(`Status changed successfully in ${data.event.status}`)
@@ -164,7 +167,7 @@ const EventDetailPage = ({ params }: { params: { id: string } }) => {
 
         } catch (error) {
             console.error(error)
-            toast.error("Error while patching status")
+            console.error("Error while patching status")
         } finally {
             setUpdating(false)
         }
@@ -182,15 +185,15 @@ const EventDetailPage = ({ params }: { params: { id: string } }) => {
             const data = await response.json()
 
             if (!response.ok) {
-                toast.error(data.message || "Erreur lors de la suppression")
-                throw new Error(data.message || "Erreur lors de la suppression")
+                toast.error("Erreur lors de la suppression")
+                throw new Error("Erreur lors de la suppression")
             }
 
             toast.success("Evenement supprimé avec succès")
             router.push("/dashboard")
 
         } catch (error) {
-            toast.error(
+            console.error(
                 error instanceof Error
                     ? error.message
                     : "Impossible de supprimer l'événement"
@@ -473,7 +476,7 @@ const EventDetailPage = ({ params }: { params: { id: string } }) => {
                     </Link>
                 </div>
             </div>
-            <div className={`grid items-end gap-1 fixed w-full right-0 p-3 max-w-xl z-101 ${viewComments ? "-top-[120%]" : "top-0"} bg-base-200/75 backdrop-blur-xs h-screen overflow-hidden rounded-lg shadow-md transition-all duration-400 `}>
+            <div className={`grid items-end gap-1 fixed w-full right-0 p-3 max-w-xl z-101 ${viewComments ? "-top-[120%]" : "top-0"} bg-base-200/75 backdrop-blur-xs h-[95vh] overflow-hidden rounded-lg shadow-md transition-all duration-400 `}>
                 <div className="flex gap-1 flex-col shadow-md p-3 rounded-lg">
                     <div className="flex justify-between items-center gap-2">
                         <div className="flex items-center gap-2">
@@ -490,7 +493,7 @@ const EventDetailPage = ({ params }: { params: { id: string } }) => {
                             <X className='h-5.5 w-5.5' />
                         </button>
                     </div>
-                    <div className={`flex gap-2 w-full rounded-lg overflow-y-auto h-[80vh] bg-base-100/75 shadow relative bg-center bg-cover`}>
+                    <div className={`flex gap-2 w-full rounded-lg overflow-y-auto h-[78vh] bg-base-100/75 shadow relative bg-center bg-cover`}>
                         {/* <div className="absolute h-full w-full bg-black opacity-40"></div> */}
                         {comments.length === 0 ? (
                             <div className="flex items-center justify-center h-full w-full flex-col gap-3">
@@ -527,13 +530,21 @@ const EventDetailPage = ({ params }: { params: { id: string } }) => {
                             </div>
                         )}
                     </div>
-                    <div className={`flex items-center gap-2 h-fit`}>
-                        <input
+                    <div className={`flex items-center gap-2 h-fit py-1`}>
+                        {/* <input
                             value={description}
+                            type='text'
                             onChange={(e) => setDescription(e.target.value)}
                             className='input rounded-full w-full'
                             placeholder='Noboté: Placez un commentaire'
-                        />
+                        /> */}
+                        <textarea
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            className='input rounded-full w-full resize-none flex items-center justify-center '
+                            placeholder='Noboté: Placez un commentaire'
+                            rows={2}
+                        ></textarea>
                         <button type="submit" className="btn btn-circle btn-sm md:btn-md btn-secondary btn-soft"
                             onClick={() => handleAddComment()}
                         >
@@ -547,11 +558,11 @@ const EventDetailPage = ({ params }: { params: { id: string } }) => {
                     onClick={() => setViewComments(!viewComments)}>
                     <FaRegCommentDots className='h-5 w-5' />
                 </button>
-                    <ShareButton
-                        title={event.title}
-                        text={`Participez à l'évenement "${event.title}" sur NOBOTE.`}
-                        url={`${process.env.NEXT_PUBLIC_URL_APP}/event/info/${event.id}`}
-                    />
+                <ShareButton
+                    title={event.title}
+                    text={`Participez à l'évenement "${event.title}" sur NOBOTE.`}
+                    url={`${process.env.NEXT_PUBLIC_URL_APP}/event/info/${event.id}`}
+                />
             </div>
         </WrapperSide>
     )
