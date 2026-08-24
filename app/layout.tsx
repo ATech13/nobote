@@ -40,13 +40,13 @@ export default function RootLayout({
                   "text-base-content/60 text-sm",
 
                 success:
-                  "!bg-success/20 !text-success-content !border-success/40",
+                  "!bg-success/20 text-base-content !border-success/40",
 
                 error:
-                  "!bg-error/20 !text-error-content !border-error/40",
+                  "!bg-error/20 text-base-content !border-error/40",
 
                 warning:
-                  "!bg-warning/20 !text-warning-content !border-warning/40",
+                  "!bg-warning/20 text-base-content !border-warning/40",
 
                 actionButton:
                   "!bg-secondary text-secondary-content",
